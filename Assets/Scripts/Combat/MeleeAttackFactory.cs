@@ -1,25 +1,22 @@
 using UnityEngine;
 
-public class MeleeAttackFactory : IAttackFactory
+public class MeleeAttackFactory
 {
     private int damage;
     private float range;
     private Transform attackPoint;
-    private LayerMask enemyLayers;
     private float attackAngle;
 
-    public MeleeAttackFactory(int damage, float range, Transform attackPoint, LayerMask enemyLayers, float attackAngle)
+    public MeleeAttackFactory(int damage, float range, Transform attackPoint, float attackAngle)
     {
         this.damage = damage;
         this.range = range;
         this.attackPoint = attackPoint;
-        this.enemyLayers = enemyLayers;
         this.attackAngle = attackAngle;
     }
 
-    public IAttack CreateAttack(Vector2 shootDirection)
+    public IAttack CreateAttack(LayerMask targetLayers)
     {
-        // For melee attacks, the direction may not be necessary
-        return new MeleeAttack(damage, range, attackPoint, enemyLayers, attackAngle);
+        return new MeleeAttack(damage, range, attackPoint, targetLayers, attackAngle);
     }
 }

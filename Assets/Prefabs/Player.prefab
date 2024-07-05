@@ -209,6 +209,7 @@ MonoBehaviour:
   attackAngle: 180
   visualGameObject: {fileID: 6384713597330424525}
   projectilePrefab: {fileID: 5764527894959253557, guid: f8acb3b72b83fdc4a8e9a39f62e8d1fc, type: 3}
+  projectileSpeed: 10
 --- !u!70 &508972569892204590
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

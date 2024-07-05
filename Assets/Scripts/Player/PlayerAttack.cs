@@ -6,10 +6,11 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = 1f;
     public int attackDamage = 20;
     public Transform attackPoint;
-    public LayerMask enemyLayers;
+    public LayerMask enemyLayers; // Ensure this is set to the enemy layer
     public float attackAngle = 90f;
     public GameObject visualGameObject;
     public GameObject projectilePrefab;
+    public float projectileSpeed = 10f;
 
     private float nextAttackTime = 0f;
     private Vector2 lookDirection;
@@ -37,8 +38,8 @@ public class PlayerAttack : MonoBehaviour
 
         playerCollider = GetComponent<Collider2D>();
 
-        meleeAttack = new MeleeAttackFactory(attackDamage, attackRange, attackPoint, enemyLayers, attackAngle).CreateAttack(Vector2.zero);
-        rangedAttack = new RangedAttackFactory(attackDamage, attackRange, attackPoint, projectilePrefab, enemyLayers, playerCollider).CreateAttack(Vector2.zero);
+        meleeAttack = new MeleeAttackFactory(attackDamage, attackRange, attackPoint, attackAngle).CreateAttack(enemyLayers);
+        rangedAttack = new RangedAttackFactory(attackDamage, attackRange, attackPoint, projectilePrefab, playerCollider, projectileSpeed).CreateAttack(enemyLayers);
 
         SetAttack(meleeAttack);
     }
@@ -76,17 +77,14 @@ public class PlayerAttack : MonoBehaviour
         if (Time.time >= nextAttackTime)
         {
             Attack();
-            nextAttackTime = Time.time + 1f / attackRate; // Update next attack time based on attack rate
+            nextAttackTime = Time.time + 1f / attackRate;
         }
- 
     }
 
     void Attack()
     {
-
         if (animator != null)
         {
-            // Prioritize horizontal movement
             if (Mathf.Abs(lookDirection.x) > Mathf.Abs(lookDirection.y))
             {
                 animator.SetTrigger("AttackRight");

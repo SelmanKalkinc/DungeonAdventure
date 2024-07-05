@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713e01805e124714e8dcf65ca8fd54b7, type: 3}
+  m_Name: Snake
+  m_EditorClassIdentifier: 
+  enemyName: Snake
+  enemyPrefab: {fileID: 3027381106630894490, guid: 3f8c744a2d1deb2479b580fa4f13dc78, type: 3}
+  health: 150
+  damage: 10
+  attackRange: 5
+  attackRate: 1
+  moveSpeed: 0.5
+  followRange: 6
+  sprite: {fileID: 993595816, guid: 60570fde2dc2e4545a14c4d69bc4c111, type: 3}
+  attackType: 1
+  projectilePrefab: {fileID: 5764527894959253557, guid: f8acb3b72b83fdc4a8e9a39f62e8d1fc, type: 3}
+  projectileSpeed: 5

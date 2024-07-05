@@ -12,4 +12,7 @@ public class EnemyStats : ScriptableObject
     public float moveSpeed; // Add this field
     public float followRange; // Add this field
     public Sprite sprite;
+    public AttackType attackType;
+    public GameObject projectilePrefab;
+    public float projectileSpeed;
 }

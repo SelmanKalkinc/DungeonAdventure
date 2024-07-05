@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5de2d41e1e76946bc65e30764c2edb, type: 3}
+  m_Name: Level 7
+  m_EditorClassIdentifier: 
+  level: 7
+  enemyCount: 5
+  dungeonWidth: 80
+  dungeonHeight: 80
+  enemyTypes:
+  - {fileID: 11400000, guid: 620e8be4994658045b88781f9a7c788e, type: 2}
+  boss: {fileID: 0}

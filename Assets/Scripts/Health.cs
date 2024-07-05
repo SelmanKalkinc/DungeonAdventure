@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
-    public TextMeshProUGUI healthText; // Reference to the TextMeshProUGUI component
+    public TextMeshProUGUI healthText; // Optional: if you have a health UI
     public event Action<int, int> OnHealthChanged;
     public event Action OnDied;
 
@@ -28,6 +28,7 @@ public class Health : MonoBehaviour
         if (currentHealth <= 0)
         {
             OnDied?.Invoke();
+            Die();
         }
     }
 
@@ -55,6 +56,13 @@ public class Health : MonoBehaviour
         {
             healthText.text = "Health: " + currentHealth.ToString();
         }
+    }
+
+    private void Die()
+    {
+        // Handle enemy death (e.g., play animation, destroy game object)
+        Debug.Log(gameObject.name + " died.");
+        Destroy(gameObject);
     }
 
     public int MaxHealth => maxHealth;

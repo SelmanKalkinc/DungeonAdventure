@@ -2,18 +2,19 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 10f;
+    private float speed;
     private int damage;
     private LayerMask targetLayers;
     private Vector2 direction;
     private Collider2D playerCollider;
 
-    public void Initialize(Vector2 direction, int damage, LayerMask targetLayers, Collider2D playerCollider)
+    public void Initialize(Vector2 direction, int damage, LayerMask targetLayers, Collider2D playerCollider, float speed)
     {
-        this.direction = direction;
+        this.direction = direction.normalized; // Normalize the direction vector
         this.damage = damage;
         this.targetLayers = targetLayers;
         this.playerCollider = playerCollider;
+        this.speed = speed;
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerCollider);
         Destroy(gameObject, 5f); // Destroy after 5 seconds to avoid lingering
     }
@@ -34,7 +35,16 @@ public class Projectile : MonoBehaviour
         if ((targetLayers.value & (1 << other.gameObject.layer)) > 0)
         {
             Debug.Log("Projectile hit a target layer: " + other.gameObject.name);
-            other.GetComponent<Enemy>().TakeDamage(damage);
+            Health targetHealth = other.GetComponent<Health>();
+            if (targetHealth != null)
+            {
+                Debug.Log("Damaging " + other.gameObject.name);
+                targetHealth.TakeDamage(damage);
+            }
+            else
+            {
+                Debug.LogError("Health component not found on " + other.gameObject.name);
+            }
             Destroy(gameObject);
         }
         else

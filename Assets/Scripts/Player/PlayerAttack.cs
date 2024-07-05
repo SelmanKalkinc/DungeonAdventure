@@ -54,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
             attackPoint.rotation = Quaternion.Euler(0, 0, angle);
         }
 
-        if (Time.time >= nextAttackTime && Input.GetMouseButtonDown(0)) // Left mouse button
+        if (Input.GetMouseButton(0)) // Left mouse button held down
         {
             TryAttack();
         }
@@ -75,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Time.time >= nextAttackTime)
         {
-            Debug.Log("Mouse button clicked at: " + Time.time);
+            Debug.Log("Mouse button held down at: " + Time.time);
             Attack();
             nextAttackTime = Time.time + 1f / attackRate; // Update next attack time based on attack rate
             Debug.Log("Next attack time set to: " + nextAttackTime);
@@ -107,8 +107,6 @@ public class PlayerAttack : MonoBehaviour
                 animator.SetTrigger("AttackDown");
             }
         }
-
-
         currentAttack.ExecuteAttack(lookDirection);
         Debug.Log("Attack executed at: " + Time.time);
     }

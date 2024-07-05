@@ -23,8 +23,14 @@ public class MeleeAttack : IAttack
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, range, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Hit " + enemy.name);
-            // Add damage logic here
+            Vector2 toEnemy = (enemy.transform.position - attackPoint.position).normalized;
+            float angle = Vector2.Angle(direction, toEnemy);
+
+            if (angle <= attackAngle / 2)
+            {
+                Debug.Log("Hit " + enemy.name);
+                enemy.GetComponent<Enemy>().TakeDamage(damage);
+            }
         }
     }
 

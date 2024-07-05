@@ -34,7 +34,7 @@ public class Projectile : MonoBehaviour
         if ((targetLayers.value & (1 << other.gameObject.layer)) > 0)
         {
             Debug.Log("Projectile hit a target layer: " + other.gameObject.name);
-            // Handle damage logic here
+            other.GetComponent<Enemy>().TakeDamage(damage);
             Destroy(gameObject);
         }
         else

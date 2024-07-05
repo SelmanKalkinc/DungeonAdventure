@@ -8,7 +8,7 @@ public class EnemyStats : ScriptableObject
     public int health;
     public int damage;
     public float attackRange;
-    public float attackSpeed;
+    public float attackRate;
     public float moveSpeed; // Add this field
     public float followRange; // Add this field
     public Sprite sprite;

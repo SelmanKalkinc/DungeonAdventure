@@ -55,7 +55,6 @@ public class Health : MonoBehaviour
         {
             healthText.text = "Health: " + currentHealth.ToString();
         }
-        // If healthText is null, do nothing
     }
 
     public int MaxHealth => maxHealth;

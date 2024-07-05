@@ -23,7 +23,7 @@ public class EnemyDamageDealer : MonoBehaviour
 
         if (enemy.enemyStats != null)
         {
-            attackTimer = 1f / enemy.enemyStats.attackSpeed;
+            attackTimer = 1f / enemy.enemyStats.attackRate;
         }
         else
         {
@@ -56,7 +56,7 @@ public class EnemyDamageDealer : MonoBehaviour
             {
                 DealDamage();
             }
-            attackTimer = 1f / enemy.enemyStats.attackSpeed;
+            attackTimer = 1f / enemy.enemyStats.attackRate;
         }
     }
 

@@ -17,7 +17,7 @@ MonoBehaviour:
   health: 200
   damage: 50
   attackRange: 1
-  attackSpeed: 3
+  attackRate: 3
   moveSpeed: 2
   followRange: 5
   sprite: {fileID: 1115095289, guid: 60570fde2dc2e4545a14c4d69bc4c111, type: 3}

@@ -2,46 +2,46 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private HealthUIUpdater healthUIUpdater;
-    private int currentHealth = 100;
-    private int maxHealth = 100;
+    private Health health;
 
     void Start()
     {
-        if (healthUIUpdater != null) 
+        GameObject healthManager = GameObject.Find("PlayerHealthManager");
+        if (healthManager != null)
         {
-            GameObject healthManager = GameObject.Find("PlayerHealthManager");
-            healthUIUpdater = healthManager.GetComponent<HealthUIUpdater>();
-            UpdateHealthUI();
+            health = healthManager.GetComponent<Health>();
+            if (health == null)
+            {
+                Debug.LogError("Health component not found on PlayerHealthManager.");
+            }
         }
-        
-    }
-
-    void UpdateHealthUI()
-    {
-        if (healthUIUpdater != null)
+        else
         {
-            healthUIUpdater.UpdateHealthText(currentHealth, maxHealth);
+            Debug.LogWarning("PlayerHealthManager not found. Health management will be disabled.");
         }
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        if (currentHealth < 0)
+        if (health != null)
         {
-            currentHealth = 0;
+            health.TakeDamage(damage);
         }
-        UpdateHealthUI();
+        else
+        {
+            Debug.LogWarning("Health component not found. Cannot take damage.");
+        }
     }
 
     public void Heal(int amount)
     {
-        currentHealth += amount;
-        if (currentHealth > maxHealth)
+        if (health != null)
         {
-            currentHealth = maxHealth;
+            health.Heal(amount);
         }
-        UpdateHealthUI();
+        else
+        {
+            Debug.LogWarning("Health component not found. Cannot heal.");
+        }
     }
 }

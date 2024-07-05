@@ -75,20 +75,14 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Time.time >= nextAttackTime)
         {
-            Debug.Log("Mouse button held down at: " + Time.time);
             Attack();
             nextAttackTime = Time.time + 1f / attackRate; // Update next attack time based on attack rate
-            Debug.Log("Next attack time set to: " + nextAttackTime);
         }
-        else
-        {
-            Debug.Log("Attack attempt during cooldown at: " + Time.time + ". Next attack available at: " + nextAttackTime);
-        }
+ 
     }
 
     void Attack()
     {
-        Debug.Log("Attack method called at: " + Time.time);
 
         if (animator != null)
         {
@@ -108,7 +102,6 @@ public class PlayerAttack : MonoBehaviour
             }
         }
         currentAttack.ExecuteAttack(lookDirection);
-        Debug.Log("Attack executed at: " + Time.time);
     }
 
     public void SetAttack(IAttack newAttack)

@@ -51,12 +51,12 @@ TagManager:
   - name: Tilemap
     uniqueID: 3581048231
     locked: 0
+  - name: Item
+    uniqueID: 1763534577
+    locked: 0
   - name: Characters
     uniqueID: 6082857
     locked: 0
   - name: UI
     uniqueID: 178356539
-    locked: 0
-  - name: Item
-    uniqueID: 1763534577
     locked: 0

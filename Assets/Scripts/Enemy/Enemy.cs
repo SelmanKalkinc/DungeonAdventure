@@ -12,6 +12,15 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         enemyDamageDealer = GetComponent<EnemyDamageDealer>();
+        Health health = GetComponent<Health>();
+        if (health != null)
+        {
+            health.OnDied += HandleDeath;
+        }
+        else
+        {
+            Debug.LogError("Health component not found on " + gameObject.name);
+        }
     }
 
     public void SetStats(EnemyStats stats)
@@ -52,8 +61,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void HandleDeath()
+    {
+        Debug.Log($"{gameObject.name} has died.");
+        OnEnemyDied?.Invoke();
+    }
+
     private void Die()
     {
+        Debug.Log($"{gameObject.name} has died.");
         OnEnemyDied?.Invoke();
         Destroy(gameObject);
     }

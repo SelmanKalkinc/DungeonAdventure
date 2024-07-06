@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8457022988024794073}
   - component: {fileID: 3631502421584389725}
   - component: {fileID: 2435842244722820990}
-  - component: {fileID: 5704999425633479241}
+  - component: {fileID: 7358780191461234777}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -44,7 +44,7 @@ Animator:
   m_GameObject: {fileID: 6384713597330424525}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 52f418d86243c744eab4c7ec64314d2f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 24bf194e90e2342489cf7cd8fa7b9b3c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -107,7 +107,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5704999425633479241
+--- !u!114 &7358780191461234777
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6384713597330424525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 293708f930d732d47a7ef7b68a295b31, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cb87c57f762afb4aad4ae25918d3f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6990011897347308224
@@ -176,7 +176,7 @@ Rigidbody2D:
   m_LinearDrag: 1
   m_AngularDrag: 10
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: cd63bfbea2b5bd847ae5448c9dace7ab, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

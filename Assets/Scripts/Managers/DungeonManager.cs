@@ -13,7 +13,6 @@ public class DungeonManager : MonoBehaviour
     public EnemyManager enemyManager;
     public GameObject gameOverPanel; // Reference to the Game Over panel
 
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -62,17 +61,32 @@ public class DungeonManager : MonoBehaviour
         Vector2Int playerSpawnPosition = spawnPositions.PlayerStartPosition;
         player.position = new Vector3(playerSpawnPosition.x + 0.5f, playerSpawnPosition.y + 0.5f, 0);
         enemyManager.SpawnEnemies(dungeonGenerator.FloorPositions, enemyParent, dungeonLevel, spawnPositions.BossPosition);
-
     }
 
     internal static void HandleBossSpawn()
     {
-        Instance.dungeonGenerator.InactivateDungeonGate();
+        if (Instance.dungeonGenerator != null)
+        {
+            Instance.dungeonGenerator.InactivateDungeonGate();
+            Debug.Log("HandleBossSpawn called and InactivateDungeonGate executed.");
+        }
+        else
+        {
+            Debug.LogError("dungeonGenerator is not assigned.");
+        }
     }
 
     internal static void HandleBossDied()
     {
-        Instance.dungeonGenerator.ActivateDungeonGate();
+        if (Instance.dungeonGenerator != null)
+        {
+            Instance.dungeonGenerator.ActivateDungeonGate();
+            Debug.Log("HandleBossDied called and ActivateDungeonGate executed.");
+        }
+        else
+        {
+            Debug.LogError("dungeonGenerator is not assigned.");
+        }
     }
 
     private void ShowGameOverPanel()
@@ -83,7 +97,7 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public void RestartDungeon() 
+    public void RestartDungeon()
     {
         GameManager.Instance.RestartGame();
     }

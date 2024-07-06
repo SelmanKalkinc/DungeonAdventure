@@ -17,5 +17,5 @@ MonoBehaviour:
   dungeonWidth: 50
   dungeonHeight: 20
   enemyTypes:
-  - {fileID: 11400000, guid: 79729fbd57143e04a97feb175d5f242d, type: 2}
+  - {fileID: 11400000, guid: b986c3deb9400d141901a73b0d855bce, type: 2}
   boss: {fileID: 0}

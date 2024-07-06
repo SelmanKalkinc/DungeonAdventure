@@ -9,15 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 713e01805e124714e8dcf65ca8fd54b7, type: 3}
-  m_Name: Fox
+  m_Script: {fileID: 11500000, guid: d25881ee08972674f8740e607f5c54b6, type: 3}
+  m_Name: Boss-1
   m_EditorClassIdentifier: 
-  enemyName: Fox
+  enemyName: Boss-1
   enemyPrefab: {fileID: 3027381106630894490, guid: 3f8c744a2d1deb2479b580fa4f13dc78, type: 3}
-  health: 100
-  damage: 10
-  attackRange: 0.5
-  attackRate: 1
-  moveSpeed: 1
+  health: 400
+  damage: 50
+  attackRange: 2
+  attackRate: 3
+  moveSpeed: 2
   followRange: 5
-  sprite: {fileID: 377226130, guid: 60570fde2dc2e4545a14c4d69bc4c111, type: 3}
+  sprite: {fileID: 1115095289, guid: 60570fde2dc2e4545a14c4d69bc4c111, type: 3}
+  attackType: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 0

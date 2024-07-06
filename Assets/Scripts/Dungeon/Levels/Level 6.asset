@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 6
   enemyCount: 30
-  dungeonWidth: 100
+  dungeonWidth: 80
   dungeonHeight: 30
   enemyTypes:
-  - {fileID: 11400000, guid: 79729fbd57143e04a97feb175d5f242d, type: 2}
-  - {fileID: 11400000, guid: 13e2efd2abb8b664db0640d349a50822, type: 2}
-  - {fileID: 11400000, guid: 9807971b2950bfa4f8e6753baea9c444, type: 2}
-  boss: {fileID: 11400000, guid: 4d82393765330914887274db169a02f4, type: 2}
+  - {fileID: 11400000, guid: 0584ccd5a1cd942418f9fa478a6687a3, type: 2}
+  - {fileID: 11400000, guid: cc37bb0ce54534f498996172f876615f, type: 2}
+  - {fileID: 11400000, guid: b986c3deb9400d141901a73b0d855bce, type: 2}
+  boss: {fileID: 11400000, guid: 9918c35ed2fd17a45a6a4697b01af618, type: 2}

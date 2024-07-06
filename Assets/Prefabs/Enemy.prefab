@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStats: {fileID: 0}
+  dropTable: {fileID: 11400000, guid: b056e936e21dcee409bbe084f34c80d6, type: 2}
 --- !u!114 &2938968499633203995
 MonoBehaviour:
   m_ObjectHideFlags: 0

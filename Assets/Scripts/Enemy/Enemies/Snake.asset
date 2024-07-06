@@ -24,3 +24,4 @@ MonoBehaviour:
   attackType: 1
   projectilePrefab: {fileID: 5764527894959253557, guid: f8acb3b72b83fdc4a8e9a39f62e8d1fc, type: 3}
   projectileSpeed: 5
+  dropTable: {fileID: 11400000, guid: 055f228831be0014e8930d43f0ebf7e8, type: 2}

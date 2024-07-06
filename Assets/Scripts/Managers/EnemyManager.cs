@@ -97,7 +97,6 @@ public class EnemyManager : MonoBehaviour
 
     private void DecrementEnemyCount()
     {
-        Debug.Log("DecrementEnemyCount called.");
         enemiesAlive--;
         UpdateEnemiesAliveText();
         if (enemiesAlive == 0)
@@ -110,7 +109,6 @@ public class EnemyManager : MonoBehaviour
 
     private void UpdateEnemiesAliveText()
     {
-        Debug.Log("Updating enemies alive text.");
         if (enemiesAliveText != null)
         {
             enemiesAliveText.text = $"Enemies Alive: {enemiesAlive}";

@@ -8,11 +8,12 @@ public class Enemy : MonoBehaviour
     public delegate void EnemyDied();
     public event EnemyDied OnEnemyDied;
     private EnemyDamageDealer enemyDamageDealer;
+    private Health health;
 
     private void Awake()
     {
         enemyDamageDealer = GetComponent<EnemyDamageDealer>();
-        Health health = GetComponent<Health>();
+        health = GetComponent<Health>();
         if (health != null)
         {
             health.OnDied += HandleDeath;
@@ -57,20 +58,21 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            Die();
+            HandleDeath();
         }
     }
 
     private void HandleDeath()
     {
-        Debug.Log($"{gameObject.name} has died.");
         OnEnemyDied?.Invoke();
-    }
-
-    private void Die()
-    {
-        Debug.Log($"{gameObject.name} has died.");
-        OnEnemyDied?.Invoke();
+        if (enemyStats.dropTable != null)
+        {
+            ItemDropManager.Instance.DropItems(enemyStats.dropTable, transform.position); // Drop items on death
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name} does not have a drop table assigned in EnemyStats.");
+        }
         Destroy(gameObject);
     }
 }

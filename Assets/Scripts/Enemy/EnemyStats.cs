@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyStats", menuName = "ScriptableObjects/NewEnemy", order = 1)]
+[CreateAssetMenu(fileName = "EnemyStats", menuName = "ScriptableObjects/Enemy", order = 1)]
 public class EnemyStats : ScriptableObject
 {
     public string enemyName; // Ensure this field is defined
@@ -15,4 +15,5 @@ public class EnemyStats : ScriptableObject
     public AttackType attackType;
     public GameObject projectilePrefab;
     public float projectileSpeed;
+    public DropTable dropTable; // Add reference to DropTable
 }

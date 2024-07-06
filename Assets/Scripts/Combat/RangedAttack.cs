@@ -23,10 +23,8 @@ public class RangedAttack : IAttack
 
     public void ExecuteAttack(Vector2 direction)
     {
-        Debug.Log("Executing Ranged Attack");
         if (projectilePrefab != null)
         {
-            Debug.Log("Instantiating projectile from RangedAttack");
             GameObject projectileInstance = Object.Instantiate(projectilePrefab, attackPoint.position, Quaternion.identity);
             Projectile projectileScript = projectileInstance.GetComponent<Projectile>();
             if (projectileScript != null)

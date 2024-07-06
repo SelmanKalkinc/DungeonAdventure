@@ -19,10 +19,6 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, 5f); // Destroy after 5 seconds to avoid lingering
     }
 
-    void Start()
-    {
-        Debug.Log("Projectile initialized. GameObject: " + gameObject.name + ", Instance ID: " + GetInstanceID() + ", Time: " + Time.time);
-    }
 
     void Update()
     {
@@ -31,14 +27,11 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Projectile collided with: " + other.gameObject.name + " at " + transform.position);
         if ((targetLayers.value & (1 << other.gameObject.layer)) > 0)
         {
-            Debug.Log("Projectile hit a target layer: " + other.gameObject.name);
             Health targetHealth = other.GetComponent<Health>();
             if (targetHealth != null)
             {
-                Debug.Log("Damaging " + other.gameObject.name);
                 targetHealth.TakeDamage(damage);
             }
             else
@@ -49,7 +42,6 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            Debug.Log("Projectile hit a non-target layer and will be destroyed.");
             Destroy(gameObject);
         }
     }

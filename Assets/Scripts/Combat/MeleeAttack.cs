@@ -19,7 +19,6 @@ public class MeleeAttack : IAttack
 
     public void ExecuteAttack(Vector2 direction)
     {
-        Debug.Log("Executing Melee Attack");
         if (attackPoint == null)
         {
             Debug.LogError("attackPoint is null");
@@ -34,11 +33,9 @@ public class MeleeAttack : IAttack
 
             if (angle <= attackAngle / 2)
             {
-                Debug.Log("Hit " + target.name);
                 Health targetHealth = target.GetComponent<Health>();
                 if (targetHealth != null)
                 {
-                    Debug.Log("Damaging " + target.name);
                     targetHealth.TakeDamage(damage);
                 }
                 else

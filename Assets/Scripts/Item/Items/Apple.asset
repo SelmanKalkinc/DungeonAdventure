@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Apple
   itemIcon: {fileID: 979692592, guid: d0d6665ce031efc41948d3fb9ed532da, type: 3}
   itemPrefab: {fileID: 9151020204474810173, guid: a8ba49a9cfa5cd04d82c42cfe1af98ad, type: 3}
+  itemTooltip: This is an apple

@@ -1,0 +1,102 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "NewItem", menuName = "ScriptableObjects/Inventory", order = 1)]
+public class InventorySO : ScriptableObject
+{
+    [SerializeField]
+    private List<InventoryItem> inventoryItems;
+
+    [SerializeField]
+    public int Size { get; set; } = 10;
+
+    public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
+
+    public void Initialize()
+    {
+        inventoryItems = new List<InventoryItem>();
+        for (int i = 0; i < Size; i++) 
+        {
+            inventoryItems.Add(InventoryItem.GetEmptyItem());
+        }
+    }
+
+    public void AddItem(ItemSO item, int quantity)
+    {
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (inventoryItems[i].IsEmpty)
+            {
+                inventoryItems[i] = new InventoryItem
+                {
+                    item = item,
+                    quantity = quantity
+                };
+                return;
+            }
+        }
+    }
+
+    public Dictionary<int, InventoryItem> GetCurrentInventoryState()
+    {
+        Dictionary<int, InventoryItem> returnValue = new Dictionary<int, InventoryItem>();
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (inventoryItems[i].IsEmpty)
+            {
+                continue;
+            }
+            else
+            {
+                returnValue[i] = inventoryItems[i];
+            }
+        }
+        return returnValue;
+    }
+
+    internal InventoryItem GetItemAt(int itemIndex)
+    {
+        return inventoryItems[itemIndex];
+    }
+
+    internal void AddItem(InventoryItem item)
+    {
+        AddItem(item.item, item.quantity);
+    }
+
+    public void SwapItems(int itemIndex_1, int itemIndex_2)
+    {
+        InventoryItem item1 = inventoryItems[itemIndex_1];
+        inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
+        inventoryItems[itemIndex_2] = item1;
+        InformAboutChange();
+    }
+
+    private void InformAboutChange()
+    {
+        OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
+    }
+}
+
+[Serializable]
+public struct InventoryItem
+{
+    public ItemSO item;
+    public int quantity;
+    public bool IsEmpty => item == null;
+
+    public InventoryItem ChangeQuantity(int newQuantity)
+    {
+        return new InventoryItem { 
+            item = this.item,
+            quantity = newQuantity
+        };
+    }
+    public static InventoryItem GetEmptyItem() => new InventoryItem {
+        item = null,
+        quantity = 0
+    };
+
+}

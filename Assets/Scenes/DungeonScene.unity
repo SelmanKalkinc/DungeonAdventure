@@ -1040,9 +1040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af2ab3c42a5fa4c8989cfdaa602f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemScale: {x: 1, y: 1, z: 1}
   dropRadiusPixels: 6
-  itemSizePixels: 6
-  circleMaskMaterial: {fileID: 2100000, guid: f23083bf93da1d340aaf905119a0e88e, type: 2}
 --- !u!4 &1074804701
 Transform:
   m_ObjectHideFlags: 0

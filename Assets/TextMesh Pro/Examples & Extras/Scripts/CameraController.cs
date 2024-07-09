@@ -136,9 +136,6 @@ namespace TMPro.Examples
             {
                 mouseWheel *= 10;
 
-                if (Input.GetKeyDown(KeyCode.I))
-                    CameraMode = CameraModes.Isometric;
-
                 if (Input.GetKeyDown(KeyCode.F))
                     CameraMode = CameraModes.Follow;
 

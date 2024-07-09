@@ -29,35 +29,35 @@ public class ItemDropManager : MonoBehaviour
             float roll = Random.Range(0f, 100f);
             if (roll <= dropItem.dropChance)
             {
-                GameObject itemInstance = Instantiate(dropItem.item.itemPrefab, position, Quaternion.identity);
-
-                // Set the scale to fit within a 6-pixel radius
-                float scaleFactor = GetScaleFactorForPixels(6.0f);
-                itemInstance.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-
-                SpriteRenderer sr = itemInstance.GetComponent<SpriteRenderer>();
-                if (sr == null)
-                {
-                    Debug.LogError("SpriteRenderer component not found on the item prefab.");
-                }
-                else if (sr.sprite == null)
-                {
-                    sr.sprite = dropItem.item.itemIcon;
-                    if (sr.sprite == null)
-                    {
-                        Debug.LogWarning("SpriteRenderer does not have a sprite assigned and no icon is available in the item.");
-                    }
-                    else
-                    {
-                        Debug.Log($"Assigned sprite: {sr.sprite.name}");
-                    }
-                }
-                else
-                {
-                    Debug.Log($"Item sprite: {sr.sprite.name}");
-                }
-
-                droppedItems.Add(itemInstance);
+             //   GameObject itemInstance = Instantiate(dropItem.item.itemPrefab, position, Quaternion.identity);
+             //
+             //   // Set the scale to fit within a 6-pixel radius
+             //   float scaleFactor = GetScaleFactorForPixels(6.0f);
+             //   itemInstance.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+             //
+             //   SpriteRenderer sr = itemInstance.GetComponent<SpriteRenderer>();
+             //   if (sr == null)
+             //   {
+             //       Debug.LogError("SpriteRenderer component not found on the item prefab.");
+             //   }
+             //   else if (sr.sprite == null)
+             //   {
+             //       //sr.sprite = dropItem.item.itemIcon;
+             //       if (sr.sprite == null)
+             //       {
+             //           Debug.LogWarning("SpriteRenderer does not have a sprite assigned and no icon is available in the item.");
+             //       }
+             //       else
+             //       {
+             //           Debug.Log($"Assigned sprite: {sr.sprite.name}");
+             //       }
+             //   }
+             //   else
+             //   {
+             //       Debug.Log($"Item sprite: {sr.sprite.name}");
+             //   }
+             //
+             //   droppedItems.Add(itemInstance);
             }
         }
 

@@ -89,7 +89,26 @@ public class InventoryController : MonoBehaviour
 
     private void HandeItemActionRequest(int itemIndex)
     {
-        throw new NotImplementedException();
+        InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
+        bool itemConsumed = false;
+        if (inventoryItem.IsEmpty)
+        {
+            return ;
+        }
+        IItemAction itemAction = inventoryItem.item as IItemAction;
+        if (itemAction != null)
+        {
+            itemConsumed = itemAction.PerformAction(gameObject);
+        }
+        IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
+        if (destroyableItem != null && itemConsumed)
+        {
+            inventoryData.RemoveItem(itemIndex, 1);
+        }
+        else
+        {
+            Debug.Log("No Need To Consume This");
+        }
     }
 
     public void Update()

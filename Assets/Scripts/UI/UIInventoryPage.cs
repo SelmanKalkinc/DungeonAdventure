@@ -109,7 +109,13 @@ public class UIInventoryPage : MonoBehaviour
 
     private void HandleShowItemActions(UIInventoryItem inventoryItemUI)
     {
-        
+        int index = listOfUIItems.IndexOf(inventoryItemUI);
+        if (index == -1)
+        {
+            return;
+        }
+        Debug.Log("HandleShowItemActions");
+        OnItemActionRequested?.Invoke(index);
     }
 
     public void Show()

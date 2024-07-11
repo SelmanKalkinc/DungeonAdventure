@@ -2801,26 +2801,8 @@ MonoBehaviour:
   inventoryUI: {fileID: 6847956011179900763}
   inventoryData: {fileID: 11400000, guid: 2022a095d5dbc524fbe9a9f484cf68ef, type: 2}
   initialItems:
-  - item: {fileID: 0}
-    quantity: 0
   - item: {fileID: 11400000, guid: 8e4fa79a48036ba47a7d1bad6ff4e240, type: 2}
-    quantity: 1
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 11400000, guid: 9190ec4a903d3da49b44e8864248e10b, type: 2}
-    quantity: 3
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 0}
-    quantity: 0
-  - item: {fileID: 11400000, guid: 8e4fa79a48036ba47a7d1bad6ff4e240, type: 2}
-    quantity: 2
-  - item: {fileID: 0}
-    quantity: 0
+    quantity: 5
 --- !u!1 &497619647
 GameObject:
   m_ObjectHideFlags: 0

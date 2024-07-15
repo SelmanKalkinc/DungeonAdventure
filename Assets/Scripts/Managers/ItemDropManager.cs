@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class ItemDropManager : MonoBehaviour
 {
     public static ItemDropManager Instance { get; private set; }
-
     public Vector3 itemScale = new Vector3(1f, 1f, 1f);
     public float dropRadiusPixels = 6.0f; // Radius of the circle in pixels
 
@@ -26,43 +25,40 @@ public class ItemDropManager : MonoBehaviour
 
         foreach (var dropItem in dropTable.dropItems)
         {
+
             float roll = Random.Range(0f, 100f);
             if (roll <= dropItem.dropChance)
             {
-             //   GameObject itemInstance = Instantiate(dropItem.item.itemPrefab, position, Quaternion.identity);
-             //
-             //   // Set the scale to fit within a 6-pixel radius
-             //   float scaleFactor = GetScaleFactorForPixels(6.0f);
-             //   itemInstance.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-             //
-             //   SpriteRenderer sr = itemInstance.GetComponent<SpriteRenderer>();
-             //   if (sr == null)
-             //   {
-             //       Debug.LogError("SpriteRenderer component not found on the item prefab.");
-             //   }
-             //   else if (sr.sprite == null)
-             //   {
-             //       //sr.sprite = dropItem.item.itemIcon;
-             //       if (sr.sprite == null)
-             //       {
-             //           Debug.LogWarning("SpriteRenderer does not have a sprite assigned and no icon is available in the item.");
-             //       }
-             //       else
-             //       {
-             //           Debug.Log($"Assigned sprite: {sr.sprite.name}");
-             //       }
-             //   }
-             //   else
-             //   {
-             //       Debug.Log($"Item sprite: {sr.sprite.name}");
-             //   }
-             //
-             //   droppedItems.Add(itemInstance);
+                // Instantiate the item prefab
+                GameObject itemInstance = Instantiate(dropItem.itemSO.ItemPrefab, position, Quaternion.identity);
+
+                // Fill the item instance with data from ItemSO
+                Item itemComponent = itemInstance.GetComponent<Item>();
+                if (itemComponent != null)
+                {
+                    itemComponent.InventoryItem = dropItem.itemSO;
+                    itemComponent.Quantity = 1; // Or set the appropriate quantity
+                    itemComponent.GetComponent<SpriteRenderer>().sprite = dropItem.itemSO.ItemImage;
+
+                    // Sorting layer is preserved from the prefab
+                }
+                else
+                {
+                    Debug.LogError("ItemPrefab does not have an Item component.");
+                }
+
+                // Set the scale to fit within a 6-pixel radius
+                float scaleFactor = GetScaleFactorForPixels(6.0f);
+                itemInstance.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+
+                droppedItems.Add(itemInstance);
             }
         }
 
         PositionItemsInCircle(droppedItems, position);
     }
+
+
 
     private void PositionItemsInCircle(List<GameObject> items, Vector3 center)
     {

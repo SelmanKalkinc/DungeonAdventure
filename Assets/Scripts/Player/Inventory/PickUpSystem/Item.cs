@@ -17,6 +17,9 @@ public class Item : MonoBehaviour
     [SerializeField]
     private float duration = 0.3f;
 
+    [field: SerializeField]
+    public GameObject ItemPrefab { get; set; } // Add this line
+
 
 
     void Start()

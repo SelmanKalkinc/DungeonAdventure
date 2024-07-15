@@ -105,12 +105,12 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\Utilities\SaveSystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Utilities\SerializableDictionary.cs" />
     <Compile Include="Assets\Scripts\Item\ItemModifiers\CharacterStatModifierSO.cs" />
     <Compile Include="Assets\Scripts\Events\EventListener.cs" />
     <Compile Include="Assets\Scripts\Environment\HouseEntrance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\Scripts\Item\ItemSO.cs" />
-    <Compile Include="Assets\Scripts\Item\ItemModifiers\CharacterStatModifierSo.cs" />
     <Compile Include="Assets\Scripts\UI\UIInventoryDescription.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
@@ -132,7 +132,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\Scripts\Item\ItemModifiers\CharacterStatHealthModifierSO.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
-    <Compile Include="Assets\Scripts\Item\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Combat\RangedAttackFactory.cs" />
     <Compile Include="Assets\Scripts\Managers\EnemyManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
@@ -146,7 +145,6 @@
     <Compile Include="Assets\Scripts\Player\Inventory\PickUpSystem\Item.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemy.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
-    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Scripts\Managers\DungeonManager.cs" />

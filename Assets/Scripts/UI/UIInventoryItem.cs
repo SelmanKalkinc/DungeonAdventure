@@ -27,26 +27,63 @@ public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
 
     public void ResetData()
     {
-        itemImage.gameObject.SetActive(false);
+        if (itemImage != null && itemImage.gameObject != null)
+        {
+            itemImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("Item image or its game object is null in UIInventoryItem.ResetData()");
+        }
         empty = true;
     }
 
     public void Deselect()
     {
-        borderImage.enabled = false;
+        if (borderImage != null)
+        {
+            borderImage.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("Border image is null in UIInventoryItem.Deselect()");
+        }
     }
 
     public void SetData(Sprite sprite, int quantity)
     {
-        itemImage.gameObject.SetActive(true);
-        itemImage.sprite = sprite;
-        quantityText.text = quantity + "";
+        if (itemImage != null && itemImage.gameObject != null)
+        {
+            itemImage.gameObject.SetActive(true);
+            itemImage.sprite = sprite;
+        }
+        else
+        {
+            Debug.LogWarning("Item image or its game object is null in UIInventoryItem.SetData()");
+        }
+
+        if (quantityText != null)
+        {
+            quantityText.text = quantity.ToString();
+        }
+        else
+        {
+            Debug.LogWarning("Quantity text is null in UIInventoryItem.SetData()");
+        }
+
         empty = false;
     }
 
     public void Select()
     {
-        borderImage.enabled = true;
+        if (borderImage != null)
+        {
+            borderImage.enabled = true;
+        }
+        else
+        {
+            Debug.LogWarning("Border image is null in UIInventoryItem.Select()");
+        }
     }
 
     public void OnPointerClick(PointerEventData pointerData)

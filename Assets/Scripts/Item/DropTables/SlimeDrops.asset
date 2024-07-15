@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SlimeDrops
   m_EditorClassIdentifier: 
   dropItems:
-  - item: {fileID: 11400000, guid: 0ccf0feeb7593f64b83153fc29ffef07, type: 2}
+  - itemSO: {fileID: 11400000, guid: 8e4fa79a48036ba47a7d1bad6ff4e240, type: 2}
     dropChance: 10

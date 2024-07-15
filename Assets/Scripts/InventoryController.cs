@@ -11,9 +11,6 @@ public class InventoryController : MonoBehaviour
     [SerializeField]
     private InventorySO inventoryData;
 
-
-    public List<InventoryItem> initialItems = new List<InventoryItem>();
-
     public void Start()
     {
         PrepareUI();
@@ -24,21 +21,6 @@ public class InventoryController : MonoBehaviour
     {
         inventoryData.Initialize();
         inventoryData.OnInventoryUpdated += UpdateInventoryUI;
-        foreach (InventoryItem item in initialItems)
-        {
-            Debug.Log(item.quantity);
-
-            if (item.IsEmpty)
-            {
-                Debug.Log("empty item");
-                continue;
-            }
-            else 
-            {
-                inventoryData.AddItem(item);
-                Debug.Log("item added");
-            }
-        }
     }
 
     private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
@@ -53,6 +35,8 @@ public class InventoryController : MonoBehaviour
     private void PrepareUI()
     {
         inventoryUI.InitializeInventoryUI(inventoryData.Size);
+        inventoryUI.gameObject.SetActive(false); // Ensure the UI starts inactive
+        Debug.Log("PrepareUI: Inventory UI initialized and set inactive.");
         this.inventoryUI.OnDescriptionRequested += HandleDescriptionRequest;
         this.inventoryUI.OnSwapItems += HandleSwapItems;
         this.inventoryUI.OnStartDragging += HandleDragging;
@@ -93,7 +77,7 @@ public class InventoryController : MonoBehaviour
         bool itemConsumed = false;
         if (inventoryItem.IsEmpty)
         {
-            return ;
+            return;
         }
         IItemAction itemAction = inventoryItem.item as IItemAction;
         if (itemAction != null)
@@ -115,16 +99,10 @@ public class InventoryController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (inventoryUI.isActiveAndEnabled == false)
+            if (!inventoryUI.isActiveAndEnabled)
             {
                 inventoryUI.Show();
-                foreach (var item in inventoryData.GetCurrentInventoryState())
-                {
-                    inventoryUI.UpdateData(
-                        item.Key,
-                        item.Value.item.ItemImage,
-                        item.Value.quantity);
-                }
+                StartCoroutine(CheckInventoryUIActive()); // Check active state after a short delay
             }
             else
             {
@@ -133,5 +111,15 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-
+    private IEnumerator CheckInventoryUIActive()
+    {
+        yield return new WaitForEndOfFrame(); // Wait for end of frame to ensure the active state is updated
+        foreach (var item in inventoryData.GetCurrentInventoryState())
+        {
+            inventoryUI.UpdateData(
+                item.Key,
+                item.Value.item.ItemImage,
+                item.Value.quantity);
+        }
+    }
 }

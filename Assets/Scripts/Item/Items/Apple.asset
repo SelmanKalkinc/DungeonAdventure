@@ -17,6 +17,7 @@ MonoBehaviour:
   <Name>k__BackingField: Apple
   <Description>k__BackingField: This is an apple.
   <ItemImage>k__BackingField: {fileID: 979692592, guid: d0d6665ce031efc41948d3fb9ed532da, type: 3}
+  <ItemPrefab>k__BackingField: {fileID: 2345424504316319707, guid: a8ba49a9cfa5cd04d82c42cfe1af98ad, type: 3}
   modifiersData:
   - statModifier: {fileID: 11400000, guid: a0916cb1028655d44aee6b9cf49bbbd9, type: 2}
     value: 200

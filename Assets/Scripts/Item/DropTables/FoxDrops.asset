@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: FoxDrops
   m_EditorClassIdentifier: 
   dropItems:
-  - item: {fileID: 11400000, guid: 0ccf0feeb7593f64b83153fc29ffef07, type: 2}
-    dropChance: 10
-  - item: {fileID: 11400000, guid: bb4d468fa71c8414fa0a00723ff45f9b, type: 2}
-    dropChance: 10
+  - itemSO: {fileID: 11400000, guid: 8e4fa79a48036ba47a7d1bad6ff4e240, type: 2}
+    dropChance: 50

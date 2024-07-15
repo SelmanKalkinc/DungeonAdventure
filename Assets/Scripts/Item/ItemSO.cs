@@ -22,4 +22,6 @@ public abstract class ItemSO : ScriptableObject
     [field: SerializeField]
     public Sprite ItemImage { get; set; }
 
+    [field: SerializeField]
+    public GameObject ItemPrefab { get; set; } // Add this line
 }

@@ -10,6 +10,6 @@ public class DropTable : ScriptableObject
 [System.Serializable]
 public class DropItem
 {
-    public ItemSO item; // Reference to the Item ScriptableObject
+    public ItemSO itemSO; // Reference to the Item ScriptableObject
     public float dropChance;
 }

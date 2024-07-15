@@ -120,9 +120,9 @@ public class UIInventoryPage : MonoBehaviour
 
     public void Show()
     {
+        Debug.Log("UIInventoryPage: Show() called");
         gameObject.SetActive(true);
-
-        ResetSelection();
+        Debug.Log("UIInventoryPage Active: " + gameObject.activeSelf);
     }
 
     public void ResetSelection()
@@ -141,7 +141,9 @@ public class UIInventoryPage : MonoBehaviour
 
     public void Hide() 
     {
+        Debug.Log("UIInventoryPage: Hide() called");
         gameObject.SetActive(false);
+        Debug.Log("UIInventoryPage Active: " + gameObject.activeSelf);
         ResetDraggedItem();
     }
 

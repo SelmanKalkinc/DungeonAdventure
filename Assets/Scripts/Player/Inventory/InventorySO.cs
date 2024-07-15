@@ -16,13 +16,21 @@ public class InventorySO : ScriptableObject
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
     public void Initialize()
+{
+    if (inventoryItems == null)
     {
         inventoryItems = new List<InventoryItem>();
-        for (int i = 0; i < Size; i++) 
+    }
+    
+    if (inventoryItems.Count == 0)
+    {
+        for (int i = 0; i < Size; i++)
         {
             inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
     }
+}
+
 
     public int AddItem(ItemSO item, int quantity)
     {
@@ -117,6 +125,16 @@ public class InventorySO : ScriptableObject
         return returnValue;
     }
 
+    public void SetCurrentInventoryState(Dictionary<int, InventoryItem> inventoryState)
+    {
+        inventoryItems = new List<InventoryItem>(new InventoryItem[Size]);
+        foreach (var item in inventoryState)
+        {
+            inventoryItems[item.Key] = item.Value;
+        }
+        InformAboutChange();
+    }
+
     internal InventoryItem GetItemAt(int itemIndex)
     {
         return inventoryItems[itemIndex];
@@ -171,14 +189,15 @@ public struct InventoryItem
 
     public InventoryItem ChangeQuantity(int newQuantity)
     {
-        return new InventoryItem { 
+        return new InventoryItem
+        {
             item = this.item,
             quantity = newQuantity
         };
     }
-    public static InventoryItem GetEmptyItem() => new InventoryItem {
+    public static InventoryItem GetEmptyItem() => new InventoryItem
+    {
         item = null,
         quantity = 0
     };
-
 }

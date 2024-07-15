@@ -138,6 +138,7 @@ MonoBehaviour:
   <Quantity>k__BackingField: 5
   audioSource: {fileID: 6071426664163526704}
   duration: 0.3
+  <ItemPrefab>k__BackingField: {fileID: 2345424504316319707}
 --- !u!82 &6071426664163526704
 AudioSource:
   m_ObjectHideFlags: 0

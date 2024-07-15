@@ -122,4 +122,27 @@ public class InventoryController : MonoBehaviour
                 item.Value.quantity);
         }
     }
+
+    public Dictionary<int, InventoryItem> GetInventory()
+    {
+        return inventoryData.GetCurrentInventoryState();
+    }
+
+    public void RemoveItemFromInventory(PlantItemSO plantItem)
+    {
+        Dictionary<int, InventoryItem> inventory = GetInventory();
+        foreach (var item in inventory)
+        {
+            if (item.Value.item == plantItem)
+            {
+                RemoveItem(item.Key, 1);
+                break;
+            }
+        }
+    }
+
+    private void RemoveItem(int itemIndex, int quantity)
+    {
+        inventoryData.RemoveItem(itemIndex, quantity);
+    }
 }

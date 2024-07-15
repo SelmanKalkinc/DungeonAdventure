@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b64a15728392634b96a3dbe7adb70d3, type: 3}
+  m_Name: MelonSeed
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 1
+  <MaxStackSize>k__BackingField: 10
+  <Name>k__BackingField: MelonSeed
+  <Description>k__BackingField: Grow Melon if Planted
+  <ItemImage>k__BackingField: {fileID: 1602271367, guid: d0d6665ce031efc41948d3fb9ed532da, type: 3}
+  <ItemPrefab>k__BackingField: {fileID: 0}
+  <PlantPrefab>k__BackingField: {fileID: 2345424504316319707, guid: a8ba49a9cfa5cd04d82c42cfe1af98ad, type: 3}
+  <GrowthTime>k__BackingField: 10
+  <RequiredWatering>k__BackingField: 3
+  <WaterInterval>k__BackingField: 10
+  <GrowthStages>k__BackingField: []
+  <QualityStages>k__BackingField: []

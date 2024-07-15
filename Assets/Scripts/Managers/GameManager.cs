@@ -64,6 +64,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("HouseScene"); // Load the house scene
     }
 
+    public void GoToGarden()
+    {
+        Debug.Log("Go to garden button clicked");
+        Time.timeScale = 1f; // Resume the game
+        SceneManager.LoadScene("GardenScene"); // Load the house scene
+    }
+
     private void DestroyAllEnemies()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

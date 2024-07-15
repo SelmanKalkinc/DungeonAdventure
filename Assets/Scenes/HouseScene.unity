@@ -2653,7 +2653,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 6847956011179900763}
   inventoryData: {fileID: 11400000, guid: 2022a095d5dbc524fbe9a9f484cf68ef, type: 2}
-  initialItems: []
 --- !u!1 &593428788
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,6 +3407,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1455255529
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.0901213
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0572605
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 536374355054907515, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257109313495992379, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
+      propertyPath: m_Name
+      value: GardenEntrance
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e620101d466a34d4db1f94ade02d9ad2, type: 3}
 --- !u!1 &1563932302
 GameObject:
   m_ObjectHideFlags: 0
@@ -3772,6 +3828,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 292287080}
+  rectTransform: {fileID: 0}
+  canvas: {fileID: 0}
+  canvasScaler: {fileID: 0}
 --- !u!114 &1646190671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5225,19 +5284,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 19.48995
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -17.073101
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5302,3 +5361,4 @@ SceneRoots:
   - {fileID: 794152225}
   - {fileID: 150909934}
   - {fileID: 1823571514}
+  - {fileID: 1455255529}

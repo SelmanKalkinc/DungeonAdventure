@@ -513,6 +513,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contextMenuPrefab: {fileID: 8590658505170337147, guid: 9a3c12cd439d63649bf5a3014f902313, type: 3}
   plantListMenuPrefab: {fileID: 4418118211004735482, guid: 0aaf68eb716ab5942ba14326856e36eb, type: 3}
+  soilTilemap: {fileID: 1006674163}
+  soilTile: {fileID: 11400000, guid: 41f37a2d9e06c27458e270506d3aa2ce, type: 2}
+  defaultTile: {fileID: 0}
 --- !u!114 &854936545 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7425543479480706485, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
@@ -1109,19 +1112,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 19.48995
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8819648431854113896, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -17.073101
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3284,7 +3287,7 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0

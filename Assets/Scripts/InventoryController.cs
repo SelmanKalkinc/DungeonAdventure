@@ -53,7 +53,12 @@ public class InventoryController : MonoBehaviour
         }
 
         ItemSO item = inventoryItem.item;
-        inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, item.Description);
+        string description = item.Description;
+        if (inventoryItem.quality.HasValue)
+        {
+            description += "\nQuality: " + inventoryItem.quality.Value;
+        }
+        inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.Name, description);
     }
 
     private void HandleSwapItems(int itemIndex_1, int itemIndex_2)
@@ -144,5 +149,10 @@ public class InventoryController : MonoBehaviour
     private void RemoveItem(int itemIndex, int quantity)
     {
         inventoryData.RemoveItem(itemIndex, quantity);
+    }
+
+    public void AddItem(ItemSO item, int quantity, float? quality = null)
+    {
+        inventoryData.AddItem(item, quantity, quality);
     }
 }

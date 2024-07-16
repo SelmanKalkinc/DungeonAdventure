@@ -1,19 +1,29 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class GardenManager : MonoBehaviour
 {
-    public GameObject contextMenuPrefab; // Prefab for the context menu
-    public GameObject plantListMenuPrefab; // Prefab for the plant list menu
-
+    public GameObject contextMenuPrefab;
+    public GameObject plantListMenuPrefab;
+    public Tilemap soilTilemap;
+    public Tile soilTile; // Reference to the soil tile
+    public Tile defaultTile;
     private List<GameObject> plantedPlants = new List<GameObject>();
     private GameObject currentContextMenu;
+    private InventoryController inventoryController;
 
     private void Start()
     {
         if (PlantListMenu.Instance == null)
         {
             Instantiate(plantListMenuPrefab);
+        }
+
+        inventoryController = FindObjectOfType<InventoryController>();
+        if (inventoryController == null)
+        {
+            Debug.LogError("InventoryController not found in the scene.");
         }
     }
 
@@ -31,11 +41,22 @@ public class GardenManager : MonoBehaviour
 
     public void PlantSeed(Vector3 position, PlantItemSO seedItem)
     {
+        Vector3Int gridPosition = soilTilemap.WorldToCell(position);
+        soilTilemap.SetTile(gridPosition, defaultTile);
+
         if (seedItem.PlantPrefab != null)
         {
             GameObject newPlant = Instantiate(seedItem.PlantPrefab, position, Quaternion.identity);
-            var growthComponent = newPlant.AddComponent<FruitGrowth>();
-            growthComponent.Initialize(seedItem);
+
+            // Ensure PlantGrowth component is not already attached
+            var growthComponent = newPlant.GetComponent<PlantGrowth>();
+            if (growthComponent == null)
+            {
+                growthComponent = newPlant.AddComponent<PlantGrowth>();
+            }
+
+            Debug.Log("Initializing PlantGrowth component with plantData: " + seedItem.Name);
+            growthComponent.Initialize(seedItem, this, gridPosition);
             plantedPlants.Add(newPlant);
         }
         else
@@ -49,7 +70,12 @@ public class GardenManager : MonoBehaviour
         GameObject plant = FindPlantAtPosition(position);
         if (plant != null)
         {
-            plant.GetComponent<FruitGrowth>().WaterPlant();
+            Debug.Log("Found plant at position. Calling WaterPlant.");
+            plant.GetComponent<PlantGrowth>().WaterPlant();
+        }
+        else
+        {
+            Debug.LogWarning("No plant found at position to water.");
         }
     }
 
@@ -58,7 +84,7 @@ public class GardenManager : MonoBehaviour
         GameObject plant = FindPlantAtPosition(position);
         if (plant != null)
         {
-            plant.GetComponent<FruitGrowth>().FertilizePlant();
+            plant.GetComponent<PlantGrowth>().FertilizePlant();
         }
     }
 
@@ -67,8 +93,19 @@ public class GardenManager : MonoBehaviour
         GameObject plant = FindPlantAtPosition(position);
         if (plant != null)
         {
-            plantedPlants.Remove(plant);
-            Destroy(plant);
+            var plantGrowth = plant.GetComponent<PlantGrowth>();
+            HarvestableItemSO harvestedItem = plantGrowth.Harvest();
+            if (harvestedItem != null)
+            {
+                float quality = plantGrowth.CalculateQuality();
+                inventoryController.AddItem(harvestedItem, 1, quality); // Add the harvested item to the inventory with quality
+                plantedPlants.Remove(plant);
+                Destroy(plant);
+                Vector3Int gridPosition = soilTilemap.WorldToCell(position);
+                Debug.Log("Harvesting plant at " + gridPosition);
+                soilTilemap.SetTile(gridPosition, soilTile); // Reset tile to soil after harvest
+                Debug.Log("Tile reset to soil at " + gridPosition);
+            }
         }
     }
 
@@ -82,5 +119,10 @@ public class GardenManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void UpdateTile(Vector3Int gridPosition, Tile tile)
+    {
+        soilTilemap.SetTile(gridPosition, tile);
     }
 }

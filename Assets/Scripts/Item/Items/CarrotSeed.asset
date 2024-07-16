@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b64a15728392634b96a3dbe7adb70d3, type: 3}
+  m_Name: CarrotSeed
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 1
+  <MaxStackSize>k__BackingField: 10
+  <Name>k__BackingField: Carrot Seed
+  <Description>k__BackingField: Grow Carrot if Planted
+  <ItemImage>k__BackingField: {fileID: 972232146, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
+  <ItemPrefab>k__BackingField: {fileID: 0}
+  PlantPrefab: {fileID: 8152552038455586826, guid: 7f38fa765548b1f4a98e196392ea960f, type: 3}
+  GrowthTime: 10
+  DeadTime: 0
+  RequiredWatering: 1
+  WaterInterval: 10
+  SeedSprite: {fileID: 1897866161, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
+  HalfGrowthSprite: {fileID: -779109558, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
+  FullGrowthSprite: {fileID: -1170890813, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
+  DeadSprite: {fileID: -267987725, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
+  HarvestableItem: {fileID: 11400000, guid: 66635f9122a23724f8fa6401b09d8d08, type: 2}

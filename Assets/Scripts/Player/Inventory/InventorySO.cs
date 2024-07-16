@@ -16,23 +16,18 @@ public class InventorySO : ScriptableObject
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
     public void Initialize()
-{
-    if (inventoryItems == null)
     {
-        inventoryItems = new List<InventoryItem>();
-    }
-    
-    if (inventoryItems.Count == 0)
-    {
-        for (int i = 0; i < Size; i++)
+        if (inventoryItems == null || inventoryItems.Count == 0)
         {
-            inventoryItems.Add(InventoryItem.GetEmptyItem());
+            inventoryItems = new List<InventoryItem>();
+            for (int i = 0; i < Size; i++)
+            {
+                inventoryItems.Add(InventoryItem.GetEmptyItem());
+            }
         }
     }
-}
 
-
-    public int AddItem(ItemSO item, int quantity)
+    public int AddItem(ItemSO item, int quantity, float? quality = null)
     {
         if (item.IsStackable == false)
         {
@@ -40,24 +35,25 @@ public class InventorySO : ScriptableObject
             {
                 while (quantity > 0 && IsInventoryFull() == false)
                 {
-                    quantity -= AddItemToFirstFreeSlot(item, 1);
+                    quantity -= AddItemToFirstFreeSlot(item, 1, quality);
                 }
                 InformAboutChange();
                 return quantity;
             }
         }
 
-        quantity = AddStackableItem(item, quantity);
+        quantity = AddStackableItem(item, quantity, quality);
         InformAboutChange();
         return quantity;
     }
 
-    private int AddItemToFirstFreeSlot(ItemSO item, int quantity)
+    private int AddItemToFirstFreeSlot(ItemSO item, int quantity, float? quality)
     {
         InventoryItem newItem = new InventoryItem
         {
             item = item,
-            quantity = quantity
+            quantity = quantity,
+            quality = quality
         };
 
         for (int i = 0; i < inventoryItems.Count; i++)
@@ -73,7 +69,7 @@ public class InventorySO : ScriptableObject
 
     private bool IsInventoryFull() => inventoryItems.Where(item => item.IsEmpty).Any() == false;
 
-    private int AddStackableItem(ItemSO item, int quantity)
+    private int AddStackableItem(ItemSO item, int quantity, float? quality)
     {
         for (int i = 0; i < inventoryItems.Count; i++)
         {
@@ -103,7 +99,7 @@ public class InventorySO : ScriptableObject
         {
             int newQuantity = Mathf.Clamp(quantity, 0, item.MaxStackSize);
             quantity -= newQuantity;
-            AddItemToFirstFreeSlot(item, newQuantity);
+            AddItemToFirstFreeSlot(item, newQuantity, quality);
         }
         return quantity;
     }
@@ -142,7 +138,7 @@ public class InventorySO : ScriptableObject
 
     internal void AddItem(InventoryItem item)
     {
-        AddItem(item.item, item.quantity);
+        AddItem(item.item, item.quantity, item.quality);
     }
 
     public void SwapItems(int itemIndex_1, int itemIndex_2)
@@ -185,6 +181,7 @@ public struct InventoryItem
 {
     public ItemSO item;
     public int quantity;
+    public float? quality; // Nullable quality for harvestable items
     public bool IsEmpty => item == null;
 
     public InventoryItem ChangeQuantity(int newQuantity)
@@ -192,12 +189,15 @@ public struct InventoryItem
         return new InventoryItem
         {
             item = this.item,
-            quantity = newQuantity
+            quantity = newQuantity,
+            quality = this.quality
         };
     }
+
     public static InventoryItem GetEmptyItem() => new InventoryItem
     {
         item = null,
-        quantity = 0
+        quantity = 0,
+        quality = null
     };
 }

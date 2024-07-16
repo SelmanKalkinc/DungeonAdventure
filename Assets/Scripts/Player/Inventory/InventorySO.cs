@@ -29,11 +29,11 @@ public class InventorySO : ScriptableObject
 
     public int AddItem(ItemSO item, int quantity, float? quality = null)
     {
-        if (item.IsStackable == false)
+        if (!item.IsStackable)
         {
             for (int i = 0; i < inventoryItems.Count; i++)
             {
-                while (quantity > 0 && IsInventoryFull() == false)
+                while (quantity > 0 && !IsInventoryFull())
                 {
                     quantity -= AddItemToFirstFreeSlot(item, 1, quality);
                 }
@@ -67,7 +67,7 @@ public class InventorySO : ScriptableObject
         return 0;
     }
 
-    private bool IsInventoryFull() => inventoryItems.Where(item => item.IsEmpty).Any() == false;
+    private bool IsInventoryFull() => inventoryItems.All(item => !item.IsEmpty);
 
     private int AddStackableItem(ItemSO item, int quantity, float? quality)
     {
@@ -79,12 +79,12 @@ public class InventorySO : ScriptableObject
             }
             if (inventoryItems[i].item.ID == item.ID)
             {
-                int amountOfPossibleToTake = inventoryItems[i].item.MaxStackSize - inventoryItems[i].quantity;
+                int amountPossibleToTake = item.MaxStackSize - inventoryItems[i].quantity;
 
-                if (quantity > amountOfPossibleToTake)
+                if (quantity > amountPossibleToTake)
                 {
-                    inventoryItems[i] = inventoryItems[i].ChangeQuantity(inventoryItems[i].item.MaxStackSize);
-                    quantity -= amountOfPossibleToTake;
+                    inventoryItems[i] = inventoryItems[i].ChangeQuantity(item.MaxStackSize);
+                    quantity -= amountPossibleToTake;
                 }
                 else
                 {
@@ -95,7 +95,7 @@ public class InventorySO : ScriptableObject
             }
         }
 
-        while (quantity > 0 && IsInventoryFull() == false)
+        while (quantity > 0 && !IsInventoryFull())
         {
             int newQuantity = Mathf.Clamp(quantity, 0, item.MaxStackSize);
             quantity -= newQuantity;
@@ -109,11 +109,7 @@ public class InventorySO : ScriptableObject
         Dictionary<int, InventoryItem> returnValue = new Dictionary<int, InventoryItem>();
         for (int i = 0; i < inventoryItems.Count; i++)
         {
-            if (inventoryItems[i].IsEmpty)
-            {
-                continue;
-            }
-            else
+            if (!inventoryItems[i].IsEmpty)
             {
                 returnValue[i] = inventoryItems[i];
             }
@@ -149,6 +145,31 @@ public class InventorySO : ScriptableObject
         InformAboutChange();
     }
 
+    public void MergeItems(int fromIndex, int toIndex)
+    {
+        InventoryItem fromItem = inventoryItems[fromIndex];
+        InventoryItem toItem = inventoryItems[toIndex];
+
+        if (fromItem.item.ID == toItem.item.ID && fromItem.item.IsStackable)
+        {
+            int totalQuantity = fromItem.quantity + toItem.quantity;
+            int maxStackSize = fromItem.item.MaxStackSize;
+
+            if (totalQuantity <= maxStackSize)
+            {
+                inventoryItems[toIndex] = toItem.ChangeQuantity(totalQuantity);
+                inventoryItems[fromIndex] = InventoryItem.GetEmptyItem();
+            }
+            else
+            {
+                inventoryItems[toIndex] = toItem.ChangeQuantity(maxStackSize);
+                inventoryItems[fromIndex] = fromItem.ChangeQuantity(totalQuantity - maxStackSize);
+            }
+
+            InformAboutChange();
+        }
+    }
+
     private void InformAboutChange()
     {
         OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
@@ -181,7 +202,7 @@ public struct InventoryItem
 {
     public ItemSO item;
     public int quantity;
-    public float? quality; // Nullable quality for harvestable items
+    public float? quality;
     public bool IsEmpty => item == null;
 
     public InventoryItem ChangeQuantity(int newQuantity)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,11 +35,10 @@ public class InventoryController : MonoBehaviour
     {
         inventoryUI.InitializeInventoryUI(inventoryData.Size);
         inventoryUI.gameObject.SetActive(false); // Ensure the UI starts inactive
-        Debug.Log("PrepareUI: Inventory UI initialized and set inactive.");
         this.inventoryUI.OnDescriptionRequested += HandleDescriptionRequest;
         this.inventoryUI.OnSwapItems += HandleSwapItems;
         this.inventoryUI.OnStartDragging += HandleDragging;
-        this.inventoryUI.OnItemActionRequested += HandeItemActionRequest;
+        this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
     }
 
     private void HandleDescriptionRequest(int itemIndex)
@@ -76,7 +74,12 @@ public class InventoryController : MonoBehaviour
         inventoryUI.CreateDraggedItem(inventoryItem.item.ItemImage, inventoryItem.quantity);
     }
 
-    private void HandeItemActionRequest(int itemIndex)
+    private void HandleMergeItems(int fromIndex, int toIndex)
+    {
+        inventoryData.MergeItems(fromIndex, toIndex);
+    }
+
+    private void HandleItemActionRequest(int itemIndex)
     {
         InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
         bool itemConsumed = false;
@@ -104,14 +107,18 @@ public class InventoryController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
+            Debug.Log("Inventory UI Active: " + inventoryUI.isActiveAndEnabled);
             if (!inventoryUI.isActiveAndEnabled)
             {
+                Debug.Log("Calling Show() on inventoryUI");
                 inventoryUI.Show();
                 StartCoroutine(CheckInventoryUIActive()); // Check active state after a short delay
             }
             else
             {
+                Debug.Log("Calling Hide() on inventoryUI");
                 inventoryUI.Hide();
+                Debug.Log("After Hide() called, Inventory UI Active: " + inventoryUI.isActiveAndEnabled);
             }
         }
     }
@@ -119,6 +126,7 @@ public class InventoryController : MonoBehaviour
     private IEnumerator CheckInventoryUIActive()
     {
         yield return new WaitForEndOfFrame(); // Wait for end of frame to ensure the active state is updated
+        Debug.Log("After Show() called, Inventory UI Active: " + inventoryUI.isActiveAndEnabled);
         foreach (var item in inventoryData.GetCurrentInventoryState())
         {
             inventoryUI.UpdateData(
@@ -153,6 +161,15 @@ public class InventoryController : MonoBehaviour
 
     public void AddItem(ItemSO item, int quantity, float? quality = null)
     {
-        inventoryData.AddItem(item, quantity, quality);
+        if (quality.HasValue)
+        {
+            inventoryData.AddItem(item, quantity, quality.Value);
+            Debug.Log($"Added item to inventory: {item.Name} (Quantity: {quantity}, Quality: {quality.Value})");
+        }
+        else
+        {
+            inventoryData.AddItem(item, quantity);
+            Debug.Log($"Added item to inventory: {item.Name} (Quantity: {quantity})");
+        }
     }
 }

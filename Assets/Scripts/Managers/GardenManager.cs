@@ -7,7 +7,7 @@ public class GardenManager : MonoBehaviour
     public GameObject contextMenuPrefab;
     public GameObject plantListMenuPrefab;
     public Tilemap soilTilemap;
-    public Tile soilTile; // Reference to the soil tile
+    public Tile soilTile;
     public Tile defaultTile;
     private List<GameObject> plantedPlants = new List<GameObject>();
     private GameObject currentContextMenu;
@@ -48,14 +48,12 @@ public class GardenManager : MonoBehaviour
         {
             GameObject newPlant = Instantiate(seedItem.PlantPrefab, position, Quaternion.identity);
 
-            // Ensure PlantGrowth component is not already attached
             var growthComponent = newPlant.GetComponent<PlantGrowth>();
             if (growthComponent == null)
             {
                 growthComponent = newPlant.AddComponent<PlantGrowth>();
             }
 
-            Debug.Log("Initializing PlantGrowth component with plantData: " + seedItem.Name);
             growthComponent.Initialize(seedItem, this, gridPosition);
             plantedPlants.Add(newPlant);
         }
@@ -70,7 +68,6 @@ public class GardenManager : MonoBehaviour
         GameObject plant = FindPlantAtPosition(position);
         if (plant != null)
         {
-            Debug.Log("Found plant at position. Calling WaterPlant.");
             plant.GetComponent<PlantGrowth>().WaterPlant();
         }
         else
@@ -86,6 +83,10 @@ public class GardenManager : MonoBehaviour
         {
             plant.GetComponent<PlantGrowth>().FertilizePlant();
         }
+        else
+        {
+            Debug.LogWarning("No plant found at position to fertilize.");
+        }
     }
 
     public void HarvestPlant(Vector3 position)
@@ -94,17 +95,24 @@ public class GardenManager : MonoBehaviour
         if (plant != null)
         {
             var plantGrowth = plant.GetComponent<PlantGrowth>();
-            HarvestableItemSO harvestedItem = plantGrowth.Harvest();
+            ItemSO harvestedItem = plantGrowth.Harvest();
             if (harvestedItem != null)
             {
-                float quality = plantGrowth.CalculateQuality();
-                inventoryController.AddItem(harvestedItem, 1, quality); // Add the harvested item to the inventory with quality
+                if (harvestedItem is HarvestableItemSO harvestableItem)
+                {
+                    float quality = plantGrowth.CalculateQuality();
+                    inventoryController.AddItem(harvestableItem, 1, quality);
+                }
+                else
+                {
+                    inventoryController.AddItem(harvestedItem, 1); // Add the rotten item without quality
+                }
+
                 plantedPlants.Remove(plant);
                 Destroy(plant);
+
                 Vector3Int gridPosition = soilTilemap.WorldToCell(position);
-                Debug.Log("Harvesting plant at " + gridPosition);
-                soilTilemap.SetTile(gridPosition, soilTile); // Reset tile to soil after harvest
-                Debug.Log("Tile reset to soil at " + gridPosition);
+                soilTilemap.SetTile(gridPosition, soilTile);
             }
         }
     }
@@ -124,5 +132,14 @@ public class GardenManager : MonoBehaviour
     public void UpdateTile(Vector3Int gridPosition, Tile tile)
     {
         soilTilemap.SetTile(gridPosition, tile);
+    }
+
+    public void ShowPlantList(Vector3 position)
+    {
+        if (PlantListMenu.Instance != null)
+        {
+            PlantListMenu.Instance.Initialize(position, this);
+            PlantListMenu.Instance.gameObject.SetActive(true);
+        }
     }
 }

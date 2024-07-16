@@ -5,7 +5,7 @@ public class PlantItemSO : ItemSO
 {
     public GameObject PlantPrefab;
     public float GrowthTime; // Total time for the plant to grow to maturity (in seconds)
-    public float DeadTime; 
+    public float DeadTime;
     public int RequiredWatering; // Total number of waterings needed
     public float WaterInterval; // Optimal interval between waterings (in seconds)
 
@@ -15,5 +15,5 @@ public class PlantItemSO : ItemSO
     public Sprite DeadSprite;
 
     public HarvestableItemSO HarvestableItem; // Reference to the harvestable item
-
+    public HarvestableItemSO RottenHarvestableItem; // Reference to the rotten harvestable item
 }

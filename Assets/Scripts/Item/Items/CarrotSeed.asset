@@ -20,7 +20,7 @@ MonoBehaviour:
   <ItemPrefab>k__BackingField: {fileID: 0}
   PlantPrefab: {fileID: 8152552038455586826, guid: 7f38fa765548b1f4a98e196392ea960f, type: 3}
   GrowthTime: 10
-  DeadTime: 0
+  DeadTime: 10
   RequiredWatering: 1
   WaterInterval: 10
   SeedSprite: {fileID: 1897866161, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
@@ -28,3 +28,4 @@ MonoBehaviour:
   FullGrowthSprite: {fileID: -1170890813, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
   DeadSprite: {fileID: -267987725, guid: d9b1e553a1ee46e45ba3105a4ec67b38, type: 3}
   HarvestableItem: {fileID: 11400000, guid: 66635f9122a23724f8fa6401b09d8d08, type: 2}
+  RottenHarvestableItem: {fileID: 11400000, guid: d22e615422eed164c94b476355ff3f48, type: 2}

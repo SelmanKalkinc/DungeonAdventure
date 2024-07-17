@@ -3827,10 +3827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e7c427e8e0a9147a310ea77dd444fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipText: {fileID: 292287080}
-  rectTransform: {fileID: 0}
-  canvas: {fileID: 0}
-  canvasScaler: {fileID: 0}
 --- !u!114 &1646190671
 MonoBehaviour:
   m_ObjectHideFlags: 0

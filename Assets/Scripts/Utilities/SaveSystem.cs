@@ -1,22 +1,36 @@
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public static class SaveSystem
 {
-    public static int LoadHighestCompletedDungeon()
+    public static void SaveData<T>(T data, string fileName)
     {
-        if (PlayerPrefs.HasKey("HighestCompletedDungeon"))
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/" + fileName;
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public static T LoadData<T>(string fileName)
+    {
+        string path = Application.persistentDataPath + "/" + fileName;
+        if (File.Exists(path))
         {
-            return PlayerPrefs.GetInt("HighestCompletedDungeon");
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            T data = (T)formatter.Deserialize(stream);
+            stream.Close();
+
+            return data;
         }
         else
         {
-            return 0; // Default value if no save data is found
+            Debug.LogError("Save file not found in " + path);
+            return default(T);
         }
-    }
-
-    public static void SaveHighestCompletedDungeon(int highestCompletedDungeon)
-    {
-        PlayerPrefs.SetInt("HighestCompletedDungeon", highestCompletedDungeon);
-        PlayerPrefs.Save(); // Ensure data is saved
     }
 }

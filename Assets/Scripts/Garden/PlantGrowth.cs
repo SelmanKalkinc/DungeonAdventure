@@ -1,50 +1,89 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PlantGrowth : MonoBehaviour
 {
-    private PlantItemSO plantData;
-    private float growthTimer;
-    private int waterCount;
-    private int fertilizerCount;
-    private float lastWaterTime;
-    private bool isGrowing;
-    private bool isHarvestable;
-    private bool isDead;
+    public PlantItemSO plantData;
+    public DateTime plantedTime;
+    public int growthStage; // 0 = Seed, 1 = Half-Growth, 2 = Full-Growth
+    public bool isDead;
+    public List<DateTime> wateredTimes;
+    public List<DateTime> fertilizedTimes;
+    public float growthTimer;
     private GardenManager gardenManager;
     private Vector3Int gridPosition;
+    public bool isHarvestable;
 
     public void Initialize(PlantItemSO plantData, GardenManager gardenManager, Vector3Int gridPosition)
     {
         this.plantData = plantData;
         this.gardenManager = gardenManager;
         this.gridPosition = gridPosition;
+        this.plantedTime = DateTime.Now;
+        this.growthStage = 0;
+        this.isDead = false;
+        this.wateredTimes = new List<DateTime>();
+        this.fertilizedTimes = new List<DateTime>();
         growthTimer = 0;
-        waterCount = 0;
-        fertilizerCount = 0;
-        lastWaterTime = -plantData.WaterInterval; // Ensures the first watering can happen immediately
-        isGrowing = true;
         isHarvestable = false;
-        isDead = false;
-        StartCoroutine(GrowPlant());
 
+        StartCoroutine(GrowPlant());
         Debug.Log("PlantGrowth initialized with plantData: " + plantData.Name);
         SetTileSprite(plantData.SeedSprite);
     }
 
-    private IEnumerator GrowPlant()
+    public void Initialize(PlantItemSO plantData, GardenManager gardenManager, Vector3Int gridPosition, DateTime plantedTime, int growthStage, bool isDead, List<DateTime> wateredTimes, List<DateTime> fertilizedTimes)
     {
-        while (isGrowing)
+        this.plantData = plantData;
+        this.gardenManager = gardenManager;
+        this.gridPosition = gridPosition;
+        this.plantedTime = plantedTime;
+        this.growthStage = growthStage;
+        this.isDead = isDead;
+        this.wateredTimes = wateredTimes;
+        this.fertilizedTimes = fertilizedTimes;
+
+        float elapsedTime = (float)(DateTime.Now - plantedTime).TotalSeconds;
+
+        if (growthStage == 1)
+        {
+            SetTileSprite(plantData.HalfGrowthSprite);
+        }
+        else if (growthStage == 2)
+        {
+            SetTileSprite(plantData.FullGrowthSprite);
+            isHarvestable = true;
+            if ((float)(DateTime.Now - plantedTime).TotalSeconds > plantData.GrowthTime + plantData.DeadTime)
+            {
+                isDead = true;
+                SetTileSprite(plantData.DeadSprite);
+            }
+        }
+
+        if (!isDead)
+        {
+            StartCoroutine(GrowPlant(elapsedTime));
+        }
+
+        Debug.Log("PlantGrowth initialized with plantData: " + plantData.Name);
+    }
+
+    private IEnumerator GrowPlant(float elapsedTime = 0)
+    {
+        while (!isDead)
         {
             growthTimer += Time.deltaTime;
 
-            if (growthTimer >= plantData.GrowthTime / 2 && !isHarvestable)
+            if (growthStage == 0 && elapsedTime + growthTimer >= plantData.GrowthTime / 2)
             {
                 SetTileSprite(plantData.HalfGrowthSprite);
+                growthStage = 1;
             }
 
-            if (growthTimer >= plantData.GrowthTime && !isHarvestable)
+            if (growthStage == 1 && elapsedTime + growthTimer >= plantData.GrowthTime)
             {
                 SetTileSprite(plantData.FullGrowthSprite);
                 CompleteGrowth();
@@ -57,11 +96,10 @@ public class PlantGrowth : MonoBehaviour
 
     public void WaterPlant()
     {
-        if (plantData != null && Time.time - lastWaterTime >= plantData.WaterInterval)
+        if (plantData != null && (DateTime.Now - (wateredTimes.Count > 0 ? wateredTimes[wateredTimes.Count - 1] : DateTime.MinValue)).TotalSeconds >= plantData.WaterInterval)
         {
-            lastWaterTime = Time.time;
-            waterCount++;
-            Debug.Log("Plant watered. Total waterings: " + waterCount);
+            wateredTimes.Add(DateTime.Now);
+            Debug.Log("Plant watered. Total waterings: " + wateredTimes.Count);
         }
         else
         {
@@ -71,13 +109,12 @@ public class PlantGrowth : MonoBehaviour
 
     public void FertilizePlant()
     {
-        fertilizerCount++;
-        Debug.Log("Plant fertilized. Total fertilizers: " + fertilizerCount);
+        fertilizedTimes.Add(DateTime.Now);
+        Debug.Log("Plant fertilized. Total fertilizers: " + fertilizedTimes.Count);
     }
 
     private void CompleteGrowth()
     {
-        isGrowing = false;
         isHarvestable = true;
         StartCoroutine(CheckForDeath());
     }
@@ -113,9 +150,9 @@ public class PlantGrowth : MonoBehaviour
         float maxQuality = 100f;
         float quality = maxQuality;
 
-        if (waterCount < plantData.RequiredWatering)
+        if (wateredTimes.Count < plantData.RequiredWatering)
         {
-            quality -= (plantData.RequiredWatering - waterCount) * 10f;
+            quality -= (plantData.RequiredWatering - wateredTimes.Count) * 10f;
         }
 
         return Mathf.Clamp(quality, 0f, maxQuality);
@@ -131,7 +168,7 @@ public class PlantGrowth : MonoBehaviour
         return harvestedItem;
     }
 
-    private void SetTileSprite(Sprite sprite)
+    public void SetTileSprite(Sprite sprite)
     {
         if (sprite != null)
         {

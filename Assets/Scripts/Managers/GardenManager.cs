@@ -1,6 +1,7 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections.Generic;
 
 public class GardenManager : MonoBehaviour
 {
@@ -25,6 +26,13 @@ public class GardenManager : MonoBehaviour
         {
             Debug.LogError("InventoryController not found in the scene.");
         }
+
+        LoadGarden();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGarden();
     }
 
     public void HandleTileClick(Vector3 position)
@@ -56,6 +64,8 @@ public class GardenManager : MonoBehaviour
 
             growthComponent.Initialize(seedItem, this, gridPosition);
             plantedPlants.Add(newPlant);
+
+            SaveGarden();
         }
         else
         {
@@ -69,6 +79,7 @@ public class GardenManager : MonoBehaviour
         if (plant != null)
         {
             plant.GetComponent<PlantGrowth>().WaterPlant();
+            SaveGarden();
         }
         else
         {
@@ -82,6 +93,7 @@ public class GardenManager : MonoBehaviour
         if (plant != null)
         {
             plant.GetComponent<PlantGrowth>().FertilizePlant();
+            SaveGarden();
         }
         else
         {
@@ -113,6 +125,8 @@ public class GardenManager : MonoBehaviour
 
                 Vector3Int gridPosition = soilTilemap.WorldToCell(position);
                 soilTilemap.SetTile(gridPosition, soilTile);
+
+                SaveGarden();
             }
         }
     }
@@ -140,6 +154,81 @@ public class GardenManager : MonoBehaviour
         {
             PlantListMenu.Instance.Initialize(position, this);
             PlantListMenu.Instance.gameObject.SetActive(true);
+        }
+    }
+
+    private void SaveGarden()
+    {
+        GardenData gardenData = new GardenData();
+
+        foreach (var plant in plantedPlants)
+        {
+            PlantGrowth plantGrowth = plant.GetComponent<PlantGrowth>();
+            if (plantGrowth != null)
+            {
+                PlantData plantData = new PlantData(
+                    plantGrowth.plantData.name,
+                    new SerializableVector3(plant.transform.position),
+                    plantGrowth.plantedTime,
+                    plantGrowth.growthStage,
+                    plantGrowth.isDead,
+                    plantGrowth.wateredTimes,
+                    plantGrowth.fertilizedTimes
+                );
+                gardenData.plants.Add(plantData);
+            }
+        }
+
+        SaveSystem.SaveData(gardenData, "gardenData.save");
+    }
+
+    private void LoadGarden()
+    {
+        GardenData gardenData = SaveSystem.LoadData<GardenData>("gardenData.save");
+        if (gardenData == null)
+        {
+            Debug.LogError("Failed to load garden data.");
+            return;
+        }
+
+        foreach (var plantData in gardenData.plants)
+        {
+            PlantItemSO plantItem = Resources.Load<PlantItemSO>("Plants/" + plantData.plantID);
+            if (plantItem != null)
+            {
+                Vector3 position = plantData.position.ToVector3();
+                PlantSeed(position, plantItem);
+                GameObject plant = FindPlantAtPosition(position);
+                if (plant != null)
+                {
+                    var plantGrowth = plant.GetComponent<PlantGrowth>();
+                    plantGrowth.plantedTime = plantData.plantedTime;
+                    plantGrowth.growthStage = plantData.growthStage;
+                    plantGrowth.isDead = plantData.isDead;
+                    plantGrowth.wateredTimes = plantData.wateredTimes;
+                    plantGrowth.fertilizedTimes = plantData.fertilizedTimes;
+                    plantGrowth.growthTimer = (float)(DateTime.Now - plantData.plantedTime).TotalSeconds;
+
+                    if (plantGrowth.growthStage == 1)
+                    {
+                        plantGrowth.SetTileSprite(plantGrowth.plantData.HalfGrowthSprite);
+                    }
+                    else if (plantGrowth.growthStage == 2)
+                    {
+                        plantGrowth.SetTileSprite(plantGrowth.plantData.FullGrowthSprite);
+                        plantGrowth.isHarvestable = true;
+                    }
+
+                    if (plantGrowth.isDead)
+                    {
+                        plantGrowth.SetTileSprite(plantGrowth.plantData.DeadSprite);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Failed to load PlantItemSO with ID: " + plantData.plantID);
+            }
         }
     }
 }

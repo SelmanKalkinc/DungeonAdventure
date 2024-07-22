@@ -358,6 +358,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6156724881689006162, guid: 0aaf68eb716ab5942ba14326856e36eb, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156724881689006162, guid: 0aaf68eb716ab5942ba14326856e36eb, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6506908559978095550, guid: 0aaf68eb716ab5942ba14326856e36eb, type: 3}
       propertyPath: m_HorizontalScrollbar
       value: 
@@ -477,6 +485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 591976545}
   - component: {fileID: 591976546}
+  - component: {fileID: 591976547}
   m_Layer: 0
   m_Name: GardenManager
   m_TagString: Untagged
@@ -516,6 +525,27 @@ MonoBehaviour:
   soilTilemap: {fileID: 1006674163}
   soilTile: {fileID: 11400000, guid: 41f37a2d9e06c27458e270506d3aa2ce, type: 2}
   defaultTile: {fileID: 0}
+  timerTextPrefab: {fileID: 6565066962807608451, guid: 662fe9b503ee3aa4eaea143162771a3a, type: 3}
+  uiCanvas: {fileID: 1857091913}
+--- !u!114 &591976547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591976543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb19f6a999266bc4aba1c17b5d8f9b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantData: {fileID: 0}
+  careRoutine: {fileID: 0}
+  growthStage: 0
+  isDead: 0
+  actionLogs: []
+  growthTimer: 0
+  isHarvestable: 0
 --- !u!114 &854936545 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7425543479480706485, guid: 65abe96f7308d8a46884212f9d7101cb, type: 3}

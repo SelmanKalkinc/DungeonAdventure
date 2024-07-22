@@ -16,4 +16,6 @@ public class PlantItemSO : ItemSO
 
     public HarvestableItemSO HarvestableItem; // Reference to the harvestable item
     public HarvestableItemSO RottenHarvestableItem; // Reference to the rotten harvestable item
+
+    public PlantCareRoutineSO careRoutine; // Reference to the plant care routine
 }

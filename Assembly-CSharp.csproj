@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyDamageDealer.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyMovement.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\Scripts\Garden\PlantData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyController.cs" />
@@ -148,9 +149,11 @@
     <Compile Include="Assets\Scripts\Dungeon\ProceduralGenerationAlgorithms.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Scripts\Player\Inventory\PickUpSystem\Item.cs" />
+    <Compile Include="Assets\Scripts\Garden\PlantCareRoutine.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemy.cs" />
     <Compile Include="Assets\Scripts\Garden\ContextMenu.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
+    <Compile Include="Assets\Scripts\Garden\ActionLog.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\Scripts\Managers\GardenManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />

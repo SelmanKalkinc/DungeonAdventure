@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,6 +14,8 @@ public class GardenManager : MonoBehaviour
     private List<GameObject> plantedPlants = new List<GameObject>();
     private GameObject currentContextMenu;
     private InventoryController inventoryController;
+    public GameObject timerTextPrefab; // Assign this prefab in the inspector
+    public Canvas uiCanvas; // Assign your existing canvas here in the inspector
 
     private void Start()
     {
@@ -62,7 +65,15 @@ public class GardenManager : MonoBehaviour
                 growthComponent = newPlant.AddComponent<PlantGrowth>();
             }
 
-            growthComponent.Initialize(seedItem, this, gridPosition);
+            PlantCareRoutineSO careRoutine = Resources.Load<PlantCareRoutineSO>("CareRoutines/" + seedItem.careRoutine.name);
+            if (careRoutine == null)
+            {
+                Debug.LogError("Failed to load CareRoutineSO: " + seedItem.careRoutine.name);
+                return;
+            }
+
+            Debug.Log("Initializing PlantGrowth with careRoutine: " + careRoutine.name);
+            growthComponent.Initialize(seedItem, careRoutine, this, gridPosition, uiCanvas, timerTextPrefab); // Pass the canvas and timer text prefab here
             plantedPlants.Add(newPlant);
 
             SaveGarden();
@@ -78,7 +89,7 @@ public class GardenManager : MonoBehaviour
         GameObject plant = FindPlantAtPosition(position);
         if (plant != null)
         {
-            plant.GetComponent<PlantGrowth>().WaterPlant();
+            plant.GetComponent<PlantGrowth>().ApplyAction(ActionType.Water);
             SaveGarden();
         }
         else
@@ -92,7 +103,7 @@ public class GardenManager : MonoBehaviour
         GameObject plant = FindPlantAtPosition(position);
         if (plant != null)
         {
-            plant.GetComponent<PlantGrowth>().FertilizePlant();
+            plant.GetComponent<PlantGrowth>().ApplyAction(ActionType.Fertilize);
             SaveGarden();
         }
         else
@@ -125,6 +136,13 @@ public class GardenManager : MonoBehaviour
 
                 Vector3Int gridPosition = soilTilemap.WorldToCell(position);
                 soilTilemap.SetTile(gridPosition, soilTile);
+
+                // Destroy the timer UI
+                var timerText = plant.GetComponentInChildren<TMP_Text>();
+                if (timerText != null)
+                {
+                    Destroy(timerText.gameObject);
+                }
 
                 SaveGarden();
             }
@@ -172,8 +190,7 @@ public class GardenManager : MonoBehaviour
                     plantGrowth.plantedTime,
                     plantGrowth.growthStage,
                     plantGrowth.isDead,
-                    plantGrowth.wateredTimes,
-                    plantGrowth.fertilizedTimes
+                    plantGrowth.actionLogs
                 );
                 gardenData.plants.Add(plantData);
             }
@@ -205,9 +222,7 @@ public class GardenManager : MonoBehaviour
                     plantGrowth.plantedTime = plantData.plantedTime;
                     plantGrowth.growthStage = plantData.growthStage;
                     plantGrowth.isDead = plantData.isDead;
-                    plantGrowth.wateredTimes = plantData.wateredTimes;
-                    plantGrowth.fertilizedTimes = plantData.fertilizedTimes;
-                    plantGrowth.growthTimer = (float)(DateTime.Now - plantData.plantedTime).TotalSeconds;
+                    plantGrowth.actionLogs = plantData.actionLogs;
 
                     if (plantGrowth.growthStage == 1)
                     {

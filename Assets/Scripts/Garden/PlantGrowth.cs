@@ -32,7 +32,7 @@ public class PlantGrowth : MonoBehaviour
         this.careRoutine = careRoutine;
         this.gardenManager = gardenManager;
         this.gridPosition = gridPosition;
-        this.plantedTime = DateTime.Now; // Ensures each plant has its own planted time
+        this.plantedTime = DateTime.Now; // Initialize with current time if not loaded
         this.growthStage = 0;
         this.isDead = false;
         this.actionLogs = new List<ActionLog>();
@@ -41,7 +41,9 @@ public class PlantGrowth : MonoBehaviour
 
         Debug.Log("Initialize called for plant: " + plantData.name + " at " + plantedTime);
 
-        StartCoroutine(GrowPlant());
+        CalculateGrowthStageAndState();
+
+        StartCoroutine(CheckGrowthAndDeath());
         Debug.Log("PlantGrowth initialized with plantData: " + plantData.name);
         SetTileSprite(plantData.SeedSprite);
 
@@ -50,56 +52,167 @@ public class PlantGrowth : MonoBehaviour
         timerText = timerUI.GetComponent<TMP_Text>();
         if (timerText == null)
         {
-            Debug.LogError("Timer UI TMP_Text component not found in the instantiated prefab!");
+            Debug.LogError("Timer Text component is missing on the Timer UI prefab.");
         }
-        else
+    }
+
+    public void InitializeLoadedPlant(PlantItemSO plantData, PlantCareRoutineSO careRoutine, GardenManager gardenManager, Vector3Int gridPosition, DateTime plantedTime, int growthStage, bool isDead, List<ActionLog> actionLogs, Canvas parentCanvas, GameObject timerTextPrefab)
+    {
+        this.plantData = plantData;
+        this.careRoutine = careRoutine;
+        this.gardenManager = gardenManager;
+        this.gridPosition = gridPosition;
+        this.plantedTime = plantedTime;
+        this.growthStage = growthStage;
+        this.isDead = isDead;
+        this.actionLogs = actionLogs;
+        this.growthTimer = (float)(DateTime.Now - plantedTime).TotalSeconds;
+        this.isHarvestable = (growthStage == 2) && !isDead;
+
+        Debug.Log("InitializeLoadedPlant called for plant: " + plantData.name + " at " + plantedTime);
+
+        CalculateGrowthStageAndState();
+
+        StartCoroutine(CheckGrowthAndDeath());
+        Debug.Log("PlantGrowth initialized with plantData: " + plantData.name);
+
+        // Check if timerText already exists to avoid duplicates
+        timerText = GetComponentInChildren<TMP_Text>();
+        if (timerText == null)
         {
-            Debug.Log("Timer UI instantiated and assigned.");
-            // Optionally adjust the position to follow the plant
-            RectTransform rectTransform = timerText.GetComponent<RectTransform>();
-            if (rectTransform == null)
+            // Instantiate and setup the timer UI under the parent canvas
+            GameObject timerUI = Instantiate(timerTextPrefab, parentCanvas.transform);
+            timerText = timerUI.GetComponent<TMP_Text>();
+            if (timerText == null)
             {
-                Debug.LogError("RectTransform component not found on timer UI prefab!");
-            }
-            else
-            {
-                Vector3 worldPosition = transform.position + new Vector3(0, -1, 0); // Adjust the Y offset as needed
-                rectTransform.position = Camera.main.WorldToScreenPoint(worldPosition);
+                Debug.LogError("Timer Text component is missing on the Timer UI prefab.");
             }
         }
     }
 
-    IEnumerator GrowPlant()
+    private IEnumerator CheckGrowthAndDeath()
     {
-        while (growthStage < 2)
+        while (true)
         {
-            float growthTime = plantData.GrowthTime / 2;
-            yield return new WaitForSeconds(growthTime);
+            UpdateGrowthTimer();
+            CheckGrowthStage();
+            CheckIfDead();
+            UpdateTimerText();
+            yield return new WaitForSeconds(1); // Check every second
+        }
+    }
 
-            growthStage++;
-            Debug.Log($"Plant {plantData.name} at {gridPosition} grew to stage {growthStage} at {DateTime.Now}");
+    private void CalculateGrowthStageAndState()
+    {
+        float halfGrowthTime = plantData.GrowthTime / 2;
+        float fullGrowthTime = plantData.GrowthTime;
+        float deadTime = plantData.DeadTime;
 
-            if (growthStage == 1)
-            {
-                SetTileSprite(plantData.HalfGrowthSprite);
-            }
-            else if (growthStage == 2)
-            {
-                SetTileSprite(plantData.FullGrowthSprite);
-                isHarvestable = true;
-            }
+        growthTimer = (float)(DateTime.Now - plantedTime).TotalSeconds;
+
+        if (growthTimer >= fullGrowthTime && growthTimer < deadTime)
+        {
+            growthStage = 2;
+            isHarvestable = true;
+            isDead = false;
+        }
+        else if (growthTimer >= halfGrowthTime && growthTimer < fullGrowthTime)
+        {
+            growthStage = 1;
+            isHarvestable = false;
+            isDead = false;
+        }
+        else if (growthTimer >= deadTime)
+        {
+            isDead = true;
+            growthStage = 2; // Set to full growth but dead
+            isHarvestable = false;
+        }
+
+        UpdatePlantSprite();
+    }
+
+    private void UpdateGrowthTimer()
+    {
+        growthTimer = (float)(DateTime.Now - plantedTime).TotalSeconds;
+    }
+
+    private void CheckGrowthStage()
+    {
+        float halfGrowthTime = plantData.GrowthTime / 2;
+        float fullGrowthTime = plantData.GrowthTime;
+
+        if (growthTimer >= fullGrowthTime && growthStage < 2)
+        {
+            growthStage = 2;
+            isHarvestable = true;
+            SetTileSprite(plantData.FullGrowthSprite);
+            Debug.Log($"Plant {plantData.name} at {gridPosition} grew to full growth stage at {DateTime.Now}");
+        }
+        else if (growthTimer >= halfGrowthTime && growthStage < 1)
+        {
+            growthStage = 1;
+            SetTileSprite(plantData.HalfGrowthSprite);
+            Debug.Log($"Plant {plantData.name} at {gridPosition} grew to half growth stage at {DateTime.Now}");
+        }
+    }
+
+    private void CheckIfDead()
+    {
+        if (growthTimer >= plantData.DeadTime)
+        {
+            isDead = true;
+            SetTileSprite(plantData.DeadSprite);
+            Debug.Log("Plant is dead: " + plantData.name);
+        }
+    }
+
+    private void UpdateTimerText()
+    {
+        if (timerText != null)
+        {
+            // Displaying the growth timer in seconds without milliseconds
+            timerText.text = Mathf.Floor(growthTimer).ToString() + "s";
+        }
+    }
+
+    private void UpdatePlantSprite()
+    {
+        if (isDead)
+        {
+            SetTileSprite(plantData.DeadSprite);
+        }
+        else if (growthStage == 2)
+        {
+            SetTileSprite(plantData.FullGrowthSprite);
+        }
+        else if (growthStage == 1)
+        {
+            SetTileSprite(plantData.HalfGrowthSprite);
+        }
+        else
+        {
+            SetTileSprite(plantData.SeedSprite);
+        }
+    }
+
+    public void SetTileSprite(Sprite sprite)
+    {
+        if (sprite != null)
+        {
+            Tile tile = ScriptableObject.CreateInstance<Tile>();
+            tile.sprite = sprite;
+            gardenManager.UpdateTile(gridPosition, tile);
         }
     }
 
     void Update()
     {
+        UpdateTimerText();
+
+        // Adjust the timer text position to follow the plant
         if (timerText != null)
         {
-            // Update the timer UI with the elapsed time
-            TimeSpan elapsedTime = DateTime.Now - plantedTime;
-            timerText.text = $"{elapsedTime.TotalSeconds:F0}"; // Display only the elapsed seconds as numbers
-
-            // Adjust the position to follow the plant
             RectTransform rectTransform = timerText.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
@@ -116,9 +229,6 @@ public class PlantGrowth : MonoBehaviour
             Debug.LogError("timerText is null in Update!");
         }
 
-        // Update growth timer
-        growthTimer = (float)(DateTime.Now - plantedTime).TotalSeconds;
-
         if (isWaiting)
         {
             waitTimer -= Time.deltaTime;
@@ -128,8 +238,6 @@ public class PlantGrowth : MonoBehaviour
                 currentActionIndex++;
             }
         }
-        Debug.Log($"Plant {plantData.name} at stage {growthStage} with growth timer: {growthTimer}");
-
     }
 
     public void ApplyAction(ActionType actionType)
@@ -270,15 +378,5 @@ public class PlantGrowth : MonoBehaviour
         harvestedItem.ItemImage = plantData.HarvestableItem.ItemImage;
         harvestedItem.BaseQuality = quality;
         return harvestedItem;
-    }
-
-    public void SetTileSprite(Sprite sprite)
-    {
-        if (sprite != null)
-        {
-            Tile tile = ScriptableObject.CreateInstance<Tile>();
-            tile.sprite = sprite;
-            gardenManager.UpdateTile(gridPosition, tile);
-        }
     }
 }

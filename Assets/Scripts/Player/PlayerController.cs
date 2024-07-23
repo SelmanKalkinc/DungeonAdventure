@@ -11,24 +11,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log("PlayerController Awake called");
         playerMovement = GetComponent<PlayerMovement>();
         playerAnimation = GetComponent<PlayerAnimation>();
-
-        if (playerMovement == null)
-        {
-            Debug.LogError("PlayerMovement component not found!");
-        }
-        else
-        {
-            Debug.Log("PlayerMovement component assigned successfully");
-        }
-
-        if (playerAnimation == null)
-        {
-            Debug.LogError("PlayerAnimation component not found!");
-        }
-        else
-        {
-            Debug.Log("PlayerAnimation component assigned successfully");
-        }
     }
 
     void Update()

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InventorySO playerInventory; // Reference to the player's inventory
 
     private string inventoryFilePath;
+    private string playerDataFilePath;
 
     private void Awake()
     {
@@ -21,7 +22,8 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             inventoryFilePath = Path.Combine(Application.persistentDataPath, "inventory.json");
-
+            playerDataFilePath = Path.Combine(Application.persistentDataPath, "playerExpData.json");
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -50,9 +52,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Debug.Log("Restart button clicked");
-        //Time.timeScale = 1f; // Resume the game
-        //DestroyAllEnemies(); // Destroy all enemies before restarting
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
         StartDungeon();
     }
 
@@ -87,6 +86,7 @@ public class GameManager : MonoBehaviour
 
     public void StartDungeon()
     {
+        LoadPlayerData(); // Load player data before starting the dungeon
         SaveGameState();
         SceneManager.LoadScene("DungeonScene"); // Replace with your dungeon scene name
     }
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
     public void SaveGameState()
     {
         SaveInventoryToFile();
+        SavePlayerData();
         // Add other game state saving logic here if needed
     }
 
@@ -121,9 +122,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SavePlayerData()
+    {
+        if (ExperienceManager.Instance != null)
+        {
+            ExperienceManager.Instance.SavePlayerData();
+        }
+        else
+        {
+            Debug.LogWarning("ExperienceManager instance not found. Cannot save player data.");
+        }
+    }
+
+    private void LoadPlayerData()
+    {
+        if (ExperienceManager.Instance != null)
+        {
+            ExperienceManager.Instance.LoadPlayerData();
+        }
+        else
+        {
+            Debug.LogWarning("ExperienceManager instance not found. Cannot load player data.");
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("onScene loaded");
+        Debug.Log("Scene loaded: " + scene.name);
         LoadInventoryFromFile(); // Load the inventory from file when a new scene is loaded
+        LoadPlayerData(); // Load the player data when a new scene is loaded
     }
 }

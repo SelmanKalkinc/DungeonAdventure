@@ -30,7 +30,6 @@ public class EnemyManager : MonoBehaviour
 
                 // Select a random enemy type
                 EnemyStats selectedEnemyType = dungeonLevel.enemyTypes[Random.Range(0, dungeonLevel.enemyTypes.Count)];
-                Debug.Log($"Selected enemy type: {selectedEnemyType.name}");
 
                 if (selectedEnemyType.enemyPrefab == null)
                 {
@@ -43,7 +42,6 @@ public class EnemyManager : MonoBehaviour
                 Enemy spawnedEnemy = enemy.GetComponent<Enemy>();
                 if (spawnedEnemy != null)
                 {
-                    Debug.Log($"Successfully instantiated enemy prefab: {selectedEnemyType.enemyPrefab.name} with Enemy component.");
                     // Assign the enemy stats to the enemy script
                     spawnedEnemy.SetStats(selectedEnemyType);
                     spawnedEnemy.InitializeEnemy();

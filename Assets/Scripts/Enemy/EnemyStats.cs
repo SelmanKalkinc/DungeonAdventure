@@ -16,4 +16,5 @@ public class EnemyStats : ScriptableObject
     public GameObject projectilePrefab;
     public float projectileSpeed;
     public DropTable dropTable; // Add reference to DropTable
+    public int expReward;
 }

@@ -44,4 +44,9 @@ public class Player : MonoBehaviour
             Debug.LogWarning("Health component not found. Cannot heal.");
         }
     }
+
+    public void GainExperience(int exp)
+    {
+        ExperienceManager.Instance.AddExperience(exp);
+    }
 }

@@ -81,6 +81,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
     <Compile Include="Assets\Scripts\Player\Inventory\InventorySO.cs" />
+    <Compile Include="Assets\Scripts\Player\LevelExperienceData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\InventoryController.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Assets\Scripts\Item\HarvestableItemSO.cs" />
     <Compile Include="Assets\Scripts\Garden\GardenData.cs" />
     <Compile Include="Assets\Scripts\Garden\PlantGrowth.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerExpData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\Scripts\Utilities\SpawnPositions.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Assets\Scripts\Environment\House.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDungeonGenerationStrategy.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDamageDealer.cs" />
+    <Compile Include="Assets\Scripts\Managers\ExperienceManager.cs" />
     <Compile Include="Assets\Scripts\Player\MeleeAttackStrategy.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IAttackStrategy.cs" />
     <Compile Include="Assets\Scripts\Dungeon\SimpleRandomWalkDungeonGenerator.cs" />

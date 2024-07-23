@@ -141,9 +141,7 @@ public class UIInventoryPage : MonoBehaviour
 
     public void Hide() 
     {
-        Debug.Log("UIInventoryPage: Hide() called");
         gameObject.SetActive(false);
-        Debug.Log("UIInventoryPage Active: " + gameObject.activeSelf);
         ResetDraggedItem();
     }
 

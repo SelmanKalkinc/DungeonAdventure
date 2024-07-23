@@ -64,6 +64,17 @@ public class Enemy : MonoBehaviour
 
     private void HandleDeath()
     {
+        // Find the player and grant experience points
+        Player player = GameObject.FindObjectOfType<Player>();
+        if (player != null)
+        {
+            player.GainExperience(enemyStats.expReward);
+        }
+        else
+        {
+            Debug.LogWarning("Player not found. Cannot grant experience points.");
+        }
+
         OnEnemyDied?.Invoke();
         if (enemyStats.dropTable != null)
         {
